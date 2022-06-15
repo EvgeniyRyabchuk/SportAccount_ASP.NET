@@ -101,14 +101,14 @@ namespace SportAccountApi.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1,
-                            BirthDate = new DateTime(2001, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Id = 2,
+                            BirthDate = new DateTime(2003, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FirstName = "Jeka",
                             LastName = "LN",
                             Login = "123",
                             MiddletName = "MN",
                             Password = "123",
-                            RoleId = 0,
+                            RoleId = 2,
                             sex_id = 1,
                             specialization_id = 1,
                             status_id = 1

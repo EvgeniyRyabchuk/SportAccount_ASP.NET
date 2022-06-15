@@ -20,9 +20,15 @@ namespace SportAccountApi.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
 
+            modelBuilder.Entity<Role>(entity =>
+            {
+                entity.Property(e => e.Name).HasMaxLength(300); 
+  
+            }); 
+
             modelBuilder.Entity<Role>().HasData(
                 new Role { Id = 1, Name = "Client" },
-                new Role { Id = 2, Name = "Coach" },
+                new Role { Id = 2, Name = "Coach" }, 
                 new Role { Id = 3, Name = "Admin" }
             ); 
 
@@ -34,7 +40,7 @@ namespace SportAccountApi.Models
                 LastName = "LN",
                 MiddletName = "MN",
                 BirthDate = new DateTime(2001, 01, 31),
-
+                RoleId = 2
             }); 
 
         }

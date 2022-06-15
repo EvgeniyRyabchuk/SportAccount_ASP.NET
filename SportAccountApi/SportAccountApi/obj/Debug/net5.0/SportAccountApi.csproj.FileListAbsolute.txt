@@ -11,7 +11,6 @@ C:\Users\jekar\Desktop\SportAccount_ASP.NET\SportAccountApi\SportAccountApi\bin\
 C:\Users\jekar\Desktop\SportAccount_ASP.NET\SportAccountApi\SportAccountApi\bin\Debug\net5.0\SportAccountApi.runtimeconfig.json
 C:\Users\jekar\Desktop\SportAccount_ASP.NET\SportAccountApi\SportAccountApi\bin\Debug\net5.0\SportAccountApi.runtimeconfig.dev.json
 C:\Users\jekar\Desktop\SportAccount_ASP.NET\SportAccountApi\SportAccountApi\bin\Debug\net5.0\SportAccountApi.dll
-C:\Users\jekar\Desktop\SportAccount_ASP.NET\SportAccountApi\SportAccountApi\bin\Debug\net5.0\ref\SportAccountApi.dll
 C:\Users\jekar\Desktop\SportAccount_ASP.NET\SportAccountApi\SportAccountApi\bin\Debug\net5.0\SportAccountApi.pdb
 C:\Users\jekar\Desktop\SportAccount_ASP.NET\SportAccountApi\SportAccountApi\bin\Debug\net5.0\Humanizer.dll
 C:\Users\jekar\Desktop\SportAccount_ASP.NET\SportAccountApi\SportAccountApi\bin\Debug\net5.0\Microsoft.Data.SqlClient.dll
@@ -50,7 +49,6 @@ C:\Users\jekar\Desktop\SportAccount_ASP.NET\SportAccountApi\SportAccountApi\bin\
 C:\Users\jekar\Desktop\SportAccount_ASP.NET\SportAccountApi\SportAccountApi\bin\Debug\net5.0\runtimes\win\lib\netstandard2.0\System.Runtime.Caching.dll
 C:\Users\jekar\Desktop\SportAccount_ASP.NET\SportAccountApi\SportAccountApi\bin\Debug\net5.0\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
 C:\Users\jekar\Desktop\SportAccount_ASP.NET\SportAccountApi\SportAccountApi\obj\Debug\net5.0\staticwebassets\SportAccountApi.StaticWebAssets.Manifest.cache
-C:\Users\jekar\Desktop\SportAccount_ASP.NET\SportAccountApi\SportAccountApi\obj\Debug\net5.0\staticwebassets\SportAccountApi.StaticWebAssets.xml
 C:\Users\jekar\Desktop\SportAccount_ASP.NET\SportAccountApi\SportAccountApi\obj\Debug\net5.0\scopedcss\bundle\SportAccountApi.styles.css
 C:\Users\jekar\Desktop\SportAccount_ASP.NET\SportAccountApi\SportAccountApi\obj\Debug\net5.0\SportAccountApi.RazorTargetAssemblyInfo.cache
 C:\Users\jekar\Desktop\SportAccount_ASP.NET\SportAccountApi\SportAccountApi\obj\Debug\net5.0\SportAccountApi.dll
@@ -58,3 +56,5 @@ C:\Users\jekar\Desktop\SportAccount_ASP.NET\SportAccountApi\SportAccountApi\obj\
 C:\Users\jekar\Desktop\SportAccount_ASP.NET\SportAccountApi\SportAccountApi\obj\Debug\net5.0\SportAccountApi.pdb
 C:\Users\jekar\Desktop\SportAccount_ASP.NET\SportAccountApi\SportAccountApi\obj\Debug\net5.0\SportAccountApi.genruntimeconfig.cache
 C:\Users\jekar\Desktop\SportAccount_ASP.NET\SportAccountApi\SportAccountApi\obj\Debug\net5.0\SportAccountApi.csproj.AssemblyReference.cache
+C:\Users\jekar\Desktop\SportAccount_ASP.NET\SportAccountApi\SportAccountApi\obj\Debug\net5.0\SportAccountApi.csproj.CopyComplete
+C:\Users\jekar\Desktop\SportAccount_ASP.NET\SportAccountApi\SportAccountApi\obj\Debug\net5.0\refint\SportAccountApi.dll

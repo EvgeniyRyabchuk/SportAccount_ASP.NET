@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace SportAccountApi.DTO.User
 {
-    public class CreateUserDTO
+    public class CreateUserDTO 
     {
         
         public int Id { get; set; }
@@ -15,6 +15,7 @@ namespace SportAccountApi.DTO.User
         public string Login { get; set; }
         public string Password { get; set; }
         public DateTime BirthDate { get; set; }
+        public int RoleID { get; set; }
 
     }
 }

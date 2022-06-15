@@ -24,7 +24,7 @@ namespace SportAccountApi.Models
 
         public int specialization_id { get; set; } = 1;
         public int status_id { get; set; } = 1;
-        public int sex_id { get; set; } = 1; 
+        public int sex_id { get; set; } = 1;
 
         public int RoleId { get; set; }
         public Role Role { get; set; }  

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SportAccountApi.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class CreateInitial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -51,17 +51,22 @@ namespace SportAccountApi.Migrations
             migrationBuilder.InsertData(
                 table: "Roles",
                 columns: new[] { "Id", "Name" },
-                values: new object[,]
-                {
-                    { 1, "Client" },
-                    { 2, "Coach" },
-                    { 3, "Admin" }
-                });
+                values: new object[] { 1, "Client" });
+
+            migrationBuilder.InsertData(
+                table: "Roles",
+                columns: new[] { "Id", "Name" },
+                values: new object[] { 2, "Coach" });
+
+            migrationBuilder.InsertData(
+                table: "Roles",
+                columns: new[] { "Id", "Name" },
+                values: new object[] { 3, "Admin" });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "BirthDate", "FirstName", "LastName", "Login", "MiddletName", "Password", "RoleId", "sex_id", "specialization_id", "status_id" },
-                values: new object[] { 1, new DateTime(2001, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), "Jeka", "LN", "123", "MN", "123", 0, 1, 1, 1 });
+                values: new object[] { 2, new DateTime(2003, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), "Jeka", "LN", "123", "MN", "123", 2, 1, 1, 1 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_RoleId",
