@@ -1,0 +1,12 @@
+PH
+dotnet tool install --local dotnet-ef --version 5.0.17
+
+PM 
+cd C:\Users\jekar\Desktop\SportAccount_ASP.NET\SportAccountApi\SportAccountApi
+dotnet ef migrations Add CreateInitial
+dotnet ef database update
+
+
+
+
+
