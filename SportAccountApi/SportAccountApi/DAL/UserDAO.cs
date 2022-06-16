@@ -10,7 +10,7 @@ using SportAccountApi.DTO.User;
 
 namespace SportAccountApi.DAL
 {
-    public class UserDAO : IStandartDTO<User>
+    public class UserDAO : IStandartDAO<User>
     {
         private readonly DataContext db;
         public UserDAO(DataContext db)
@@ -25,7 +25,7 @@ namespace SportAccountApi.DAL
             // TODO: rework without checking on exception
             try
             {
-                registeredUser = await db.Users.Where(u => u.Login == loginName).FirstAsync(); 
+                registeredUser = await db.Users.Where(u => u.Login == loginName).Include(u => u.Role).FirstAsync(); 
             }
             catch (InvalidOperationException)
             { }

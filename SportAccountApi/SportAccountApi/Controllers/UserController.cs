@@ -11,39 +11,53 @@ using System.Web;
 using System.Net.Http;
 using FilmsStorage.DAL;
 using SportAccountApi.DAL;
+using SportAccountApi.Mapper;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SportAccountApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    
     public class UserController : ControllerBase 
     {
-        private readonly UserDAO userDTO;
+        private readonly UserDAO userDAO;
+        private readonly RoleDAO roleDAO; 
 
         public UserController(DataContext dataContext)
         {
-            userDTO = new UserDAO(dataContext); 
+            userDAO = new UserDAO(dataContext);
+            roleDAO = new RoleDAO(dataContext); 
         }
 
-        [HttpGet]
+        [HttpGet, Authorize]
+    
         public async Task<ActionResult<User>> Index()
         {
-            return Ok(await userDTO.GetAllAsync());  
+            try
+            {
+                return Ok(await userDAO.GetAllAsync()); 
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message); 
+            }
+     
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}"), Authorize]
+
         public async Task<ActionResult<User>> Show(int id)
         {
             try
             {
-                User user = await userDTO.FindByIdAsync(id); 
+                User user = await userDAO.FindByIdAsync(id); 
                 return Ok(user);
             }
             catch (Exception ex)
             {
                 return NotFound();
                 //return BadRequest(ex.Message);
-
             }
         }
 
@@ -52,43 +66,56 @@ namespace SportAccountApi.Controllers
         [HttpPost]
         public async Task<ActionResult<User>> Store(CreateUserDTO request)
         {
-            var userMapped = new User()
+            try
             {
-                FirstName = request.FirstName,
-                LastName = request.LastName,
-                MiddletName = request.MiddletName, 
-                BirthDate = request.BirthDate,
-                RoleId = request.RoleID
-            };
+                // check out if role exist 
+                Role role = await roleDAO.FindByIdAsync(request.RoleId);
 
-            var list = await userDTO.AddAsync(userMapped); 
-            return Ok(list);
+                User userMapped = UserMapper.FromCreateModel(request);
+
+                var list = await userDAO.AddAsync(userMapped);
+
+                return Ok(list);
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message); 
+            }
+          
         }
 
         [HttpPut]
         public async Task<ActionResult<User>> Update(CreateUserDTO request)
         {
-            var userMapped = new User()
+            try
             {
-                Id = request.Id,
-                FirstName = request.FirstName,
-                LastName = request.LastName,
-                MiddletName = request.MiddletName,
-                BirthDate = request.BirthDate,
-                RoleId = request.RoleID
-            };
+                Role role = await roleDAO.FindByIdAsync(request.RoleId);
 
-            //var user = await 
-            var list = await userDTO.UpdateAsync(userMapped); 
+                User userMapped = UserMapper.FromCreateModel(request);
 
-            return Ok(list); 
+                //var user = await 
+                var list = await userDAO.UpdateAsync(userMapped);
+
+                return Ok(list);
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message); 
+            }
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult<User>> Destroy(int id)
         {
-            var list = await userDTO.DeleteAsync(id); 
-            return Ok(list);
+            try
+            {
+                var list = await userDAO.DeleteAsync(id);
+                return Ok(list);
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

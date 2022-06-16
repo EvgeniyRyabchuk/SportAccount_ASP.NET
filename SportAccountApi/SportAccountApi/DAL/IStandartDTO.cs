@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace SportAccountApi.DAL
 {
-    public interface IStandartDTO<T>
+    public interface IStandartDAO<T>
     {
         public Task<ICollection<T>> GetAllAsync();
         public Task<T> FindByIdAsync(int id);

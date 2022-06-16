@@ -27,7 +27,8 @@ namespace SportAccountApi.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
 
                     b.HasKey("Id");
 
@@ -76,12 +77,23 @@ namespace SportAccountApi.Migrations
                     b.Property<string>("MiddletName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Password")
-                        .IsRequired()
+                    b.Property<byte[]>("PasswordHash")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<byte[]>("PasswordSalt")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("RefreshToken")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("RoleId")
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("TokenCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("TokenExpires")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("sex_id")
                         .HasColumnType("int");
@@ -97,22 +109,6 @@ namespace SportAccountApi.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("Users");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 2,
-                            BirthDate = new DateTime(2003, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FirstName = "Jeka",
-                            LastName = "LN",
-                            Login = "123",
-                            MiddletName = "MN",
-                            Password = "123",
-                            RoleId = 2,
-                            sex_id = 1,
-                            specialization_id = 1,
-                            status_id = 1
-                        });
                 });
 
             modelBuilder.Entity("SportAccountApi.Models.User", b =>

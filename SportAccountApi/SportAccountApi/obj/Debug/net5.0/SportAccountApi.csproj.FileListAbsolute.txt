@@ -27,7 +27,6 @@ C:\Users\jekar\Desktop\SportAccount_ASP.NET\SportAccountApi\SportAccountApi\bin\
 C:\Users\jekar\Desktop\SportAccount_ASP.NET\SportAccountApi\SportAccountApi\bin\Debug\net5.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 C:\Users\jekar\Desktop\SportAccount_ASP.NET\SportAccountApi\SportAccountApi\bin\Debug\net5.0\Microsoft.IdentityModel.Tokens.dll
 C:\Users\jekar\Desktop\SportAccount_ASP.NET\SportAccountApi\SportAccountApi\bin\Debug\net5.0\Microsoft.OpenApi.dll
-C:\Users\jekar\Desktop\SportAccount_ASP.NET\SportAccountApi\SportAccountApi\bin\Debug\net5.0\Newtonsoft.Json.dll
 C:\Users\jekar\Desktop\SportAccount_ASP.NET\SportAccountApi\SportAccountApi\bin\Debug\net5.0\Swashbuckle.AspNetCore.Swagger.dll
 C:\Users\jekar\Desktop\SportAccount_ASP.NET\SportAccountApi\SportAccountApi\bin\Debug\net5.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\Users\jekar\Desktop\SportAccount_ASP.NET\SportAccountApi\SportAccountApi\bin\Debug\net5.0\Swashbuckle.AspNetCore.SwaggerUI.dll
@@ -58,3 +57,8 @@ C:\Users\jekar\Desktop\SportAccount_ASP.NET\SportAccountApi\SportAccountApi\obj\
 C:\Users\jekar\Desktop\SportAccount_ASP.NET\SportAccountApi\SportAccountApi\obj\Debug\net5.0\SportAccountApi.csproj.AssemblyReference.cache
 C:\Users\jekar\Desktop\SportAccount_ASP.NET\SportAccountApi\SportAccountApi\obj\Debug\net5.0\SportAccountApi.csproj.CopyComplete
 C:\Users\jekar\Desktop\SportAccount_ASP.NET\SportAccountApi\SportAccountApi\obj\Debug\net5.0\refint\SportAccountApi.dll
+C:\Users\jekar\Desktop\SportAccount_ASP.NET\SportAccountApi\SportAccountApi\bin\Debug\net5.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\jekar\Desktop\SportAccount_ASP.NET\SportAccountApi\SportAccountApi\bin\Debug\net5.0\Microsoft.Extensions.DependencyModel.dll
+C:\Users\jekar\Desktop\SportAccount_ASP.NET\SportAccountApi\SportAccountApi\bin\Debug\net5.0\Scrutor.dll
+C:\Users\jekar\Desktop\SportAccount_ASP.NET\SportAccountApi\SportAccountApi\bin\Debug\net5.0\Swashbuckle.AspNetCore.Filters.dll
+C:\Users\jekar\Desktop\SportAccount_ASP.NET\SportAccountApi\SportAccountApi\bin\Debug\net5.0\Swashbuckle.AspNetCore.Filters.Abstractions.dll

@@ -15,33 +15,34 @@ namespace SportAccountApi.Models
         }
 
         public DbSet<User> Users { get; set; } 
-        public DbSet<Role> Roles { get; set; } 
+        public DbSet<Role> Roles { get; set; }
 
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder) {
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
 
             modelBuilder.Entity<Role>(entity =>
             {
-                entity.Property(e => e.Name).HasMaxLength(300); 
-  
-            }); 
+                entity.Property(e => e.Name).HasMaxLength(300);
+
+            });
 
             modelBuilder.Entity<Role>().HasData(
                 new Role { Id = 1, Name = "Client" },
-                new Role { Id = 2, Name = "Coach" }, 
+                new Role { Id = 2, Name = "Coach" },
                 new Role { Id = 3, Name = "Admin" }
-            ); 
+            );
 
 
-          modelBuilder.Entity<User>().HasData(new User
-            {
-                Id = 1, 
-                FirstName = "Jeka",
-                LastName = "LN",
-                MiddletName = "MN",
-                BirthDate = new DateTime(2001, 01, 31),
-                RoleId = 2
-            }); 
+            //modelBuilder.Entity<User>().HasData(new User
+            //{
+            //      Id = 1, 
+            //      FirstName = "Jeka",
+            //      LastName = "LN",
+            //      MiddletName = "MN",
+            //      BirthDate = new DateTime(2001, 01, 31),
+            //      RoleId = 2
+            //  }); 
 
         }
     }

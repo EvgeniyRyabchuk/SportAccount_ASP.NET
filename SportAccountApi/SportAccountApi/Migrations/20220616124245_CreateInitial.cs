@@ -13,7 +13,7 @@ namespace SportAccountApi.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Name = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -26,11 +26,15 @@ namespace SportAccountApi.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    RefreshToken = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TokenCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    TokenExpires = table.Column<DateTime>(type: "datetime2", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     MiddletName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Login = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PasswordHash = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
+                    PasswordSalt = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     BirthDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     specialization_id = table.Column<int>(type: "int", nullable: false),
                     status_id = table.Column<int>(type: "int", nullable: false),
@@ -62,11 +66,6 @@ namespace SportAccountApi.Migrations
                 table: "Roles",
                 columns: new[] { "Id", "Name" },
                 values: new object[] { 3, "Admin" });
-
-            migrationBuilder.InsertData(
-                table: "Users",
-                columns: new[] { "Id", "BirthDate", "FirstName", "LastName", "Login", "MiddletName", "Password", "RoleId", "sex_id", "specialization_id", "status_id" },
-                values: new object[] { 2, new DateTime(2003, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), "Jeka", "LN", "123", "MN", "123", 2, 1, 1, 1 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_RoleId",
