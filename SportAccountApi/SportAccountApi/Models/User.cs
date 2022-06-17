@@ -11,13 +11,6 @@ namespace SportAccountApi.Models
 {
     public class User
     {
-
-        public string RefreshToken { get; set; }
-        public DateTime TokenCreated { get; set; }
-        public DateTime TokenExpires { get; set; }
-
-
-
         [Key]
         public int Id { get; set; }
         [Required]
@@ -33,23 +26,37 @@ namespace SportAccountApi.Models
         [JsonIgnore]
         public byte[] PasswordSalt { get; set; }
 
+        public string RefreshToken { get; set; }
+        public DateTime TokenCreated { get; set; }
+        public DateTime TokenExpires { get; set; } 
+
 
         [Required]
         public DateTime BirthDate { get; set; }
 
-        [JsonIgnore]
-        public int specialization_id { get; set; } = 1;
-        [JsonIgnore]
-        public int status_id { get; set; } = 1;
 
         [JsonIgnore]
-        public int sex_id { get; set; } = 1;
+        public int SpecializationId { get; set; }
+        public Specialization Specialization { set; get; }
+
+        //[JsonIgnore]
+        public int StatusId { get; set; } 
+        //TODO: cascade error 
+        ////public Status status { get; set; } 
+
+        [JsonIgnore]
+        public int SexId { get; set; }
+        public Sex Sex { get; set; } 
+
 
         [JsonIgnore]
         public int RoleId { get; set; } 
+        public Role Role { get; set; } 
 
+        public List<Phone> Phones { get; set; } 
 
-        public Role Role { get; set; }
+        
+        public List<Group> groups { get; set; }
      
     }
 }

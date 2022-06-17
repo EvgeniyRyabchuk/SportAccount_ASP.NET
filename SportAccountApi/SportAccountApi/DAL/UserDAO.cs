@@ -34,10 +34,18 @@ namespace SportAccountApi.DAL
 
         }
 
+        public async Task<User> ByIdAsync(int id)
+        {
+            return await db.Users.Where(u => u.Id == id).Include( u => u.Role).FirstAsync();  
+        }
+
 
         public async Task<ICollection<User>> GetAllAsync() 
         {
-            return await db.Users.ToListAsync();
+            return await db.Users
+                .Include(u => u.Role)
+                .Include(u => u.Phones) 
+                .ToListAsync();
         }
 
         public async Task<User> FindByIdAsync(int id)

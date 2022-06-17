@@ -30,7 +30,7 @@ namespace SportAccountApi.Controllers
             roleDAO = new RoleDAO(dataContext); 
         }
 
-        [HttpGet, Authorize]
+        [HttpGet]
     
         public async Task<ActionResult<User>> Index()
         {
@@ -45,7 +45,7 @@ namespace SportAccountApi.Controllers
      
         }
 
-        [HttpGet("{id}"), Authorize]
+        [HttpGet("{id}")]
 
         public async Task<ActionResult<User>> Show(int id)
         {
