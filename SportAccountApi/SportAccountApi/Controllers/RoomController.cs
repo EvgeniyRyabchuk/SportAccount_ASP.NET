@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SportAccountApi.DAL;
 using SportAccountApi.DTO.Group;
 using SportAccountApi.Mapper;
@@ -21,7 +22,7 @@ namespace SportAccountApi.Controllers
             roomDAO = new RoomDAO(dataContext);
         }
 
-        [HttpGet] 
+        [HttpGet, Authorize] 
         public async Task<ActionResult<ICollection<Room>>> IndexAsync()
         {
             ICollection<Room> list = await roomDAO.GetAllAsync(); 
