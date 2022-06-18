@@ -58,7 +58,7 @@ namespace SportAccountApi.Controllers
             User userExist = await userDAO.ByLoginAsync(request.Login);
             if (userExist == null)
             {
-                User user = UserMapper.FromCreateModel(request);
+                User user = UserMapper.FromCreateModel(request); 
 
                 await userDAO.AddAsync(user);
                 
@@ -97,7 +97,7 @@ namespace SportAccountApi.Controllers
         [HttpPost("refresh-token"), Authorize]
         public async Task<ActionResult<string>> RefreshToken() 
         {
-            User user = await GetCurrentUser();
+            User user = await _SL.GetCurrentUser(userDAO, httpContextAccessor);
             var refreshToken = Request.Cookies["refreshToken"];
             
             if (!user.RefreshToken.Equals(refreshToken))
@@ -121,7 +121,7 @@ namespace SportAccountApi.Controllers
         [HttpPost("logout"), Authorize]
         public async Task<ActionResult> Logout()
         {
-            User current = await GetCurrentUser(); 
+            User current = await _SL.GetCurrentUser(userDAO, httpContextAccessor);  
             current.TokenExpires = DateTime.Now;
             current.RefreshToken = null;
 
@@ -174,13 +174,8 @@ namespace SportAccountApi.Controllers
         //    var user = _userManager.GetUserAsync(User).Result;
         //    return user;
         //}
-        private async Task<User> GetCurrentUser()
-        {
-            int userId = int.Parse(httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
-            return await userDAO.ByIdAsync(userId); 
-        }
 
-
+        
         private string CreateToken(User user)
         {
             List<Claim> claims = new List<Claim>

@@ -25,7 +25,15 @@ namespace SportAccountApi.DAL
             // TODO: rework without checking on exception
             try
             {
-                registeredUser = await db.Users.Where(u => u.Login == loginName).Include(u => u.Role).FirstAsync(); 
+                registeredUser = await db.Users.Where(u => u.Login == loginName)
+                    .Include(u => u.Role)
+                    .Include(u => u.Specialization)
+                    //.Include(u => u.StatusId)
+                    .Include(u => u.Sex)
+                    .Include(u => u.Role)
+                    .Include(u => u.Phones)
+                    .Include(u => u.Groups)
+                    .FirstAsync(); 
             }
             catch (InvalidOperationException)
             { }
@@ -36,7 +44,15 @@ namespace SportAccountApi.DAL
 
         public async Task<User> ByIdAsync(int id)
         {
-            return await db.Users.Where(u => u.Id == id).Include( u => u.Role).FirstAsync();  
+            return await db.Users.Where(u => u.Id == id)
+                .Include(u => u.Role)
+                .Include(u => u.Specialization)
+                //.Include(u => u.StatusId)
+                .Include(u => u.Sex)
+                .Include(u => u.Role)
+                .Include(u => u.Phones)
+                .Include(u => u.Groups)
+                .FirstAsync();  
         }
 
 
@@ -44,16 +60,27 @@ namespace SportAccountApi.DAL
         {
             return await db.Users
                 .Include(u => u.Role)
-                .Include(u => u.Phones) 
+                .Include(u => u.Specialization)
+                //.Include(u => u.StatusId)
+                .Include(u => u.Sex)
+                .Include(u => u.Role)
+                .Include(u => u.Phones)
+                .Include(u => u.Groups)
                 .ToListAsync();
         }
 
         public async Task<User> FindByIdAsync(int id)
         {
             User user = await db.Users
-                  .Include(u => u.Role)
-                  .Where(u => u.Id == id).FirstAsync();
-
+                .Include(u => u.Role)
+                .Include(u => u.Specialization)
+                //.Include(u => u.StatusId)
+                .Include(u => u.Sex)
+                .Include(u => u.Role)
+                .Include(u => u.Phones)
+                .Include(u => u.Groups)
+                .Where(u => u.Id == id).FirstAsync();
+            
 
             if (user == null)
                 throw new Exception("User does't exist");
@@ -68,13 +95,25 @@ namespace SportAccountApi.DAL
             return await db.Users.ToListAsync(); 
         }
 
+        public async Task<ICollection<User>> AddGroupAsync(User user, Group group)
+        {
+            if (user.Groups.Find(g => g.Id == group.Id) != null)
+            {
+                throw new Exception("The group already exist for this user"); 
+            }
+
+            user.Groups.Add(group);
+            await db.SaveChangesAsync();
+            return await db.Users.ToListAsync();
+        }
+
 
         public async Task<ICollection<User>> UpdateAsync(User request)
         {
             var user = await db.Users.FindAsync(request.Id); 
             if (user == null)
                 throw new Exception("User does't exist");
-
+            
             user.FirstName = request.FirstName;
             user.LastName = request.LastName;
             user.MiddletName = request.MiddletName;

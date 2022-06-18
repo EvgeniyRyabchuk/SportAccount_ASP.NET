@@ -24,7 +24,10 @@ namespace SportAccountApi.DTO.User
         public string Password { get; set; }
         [Required]
         public DateTime BirthDate { get; set; }  
-        public int RoleId { get; set; } = 1; 
-        
+        public int RoleId { get; set; } = 1;
+        public int SpecializationId { get; set; } = 1;
+        public int StatusId { get; set; }
+        public int SexId { get; set; } = 1;
+
     }
 }

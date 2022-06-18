@@ -1,6 +1,11 @@
-﻿using SportAccountApi.Models;
+﻿using Microsoft.AspNetCore.Http;
+using SportAccountApi.DAL;
+using SportAccountApi.Models;
+using System;
 using System.Linq;
+using System.Security.Claims;
 using System.Security.Cryptography;
+using System.Threading.Tasks;
 
 namespace SportAccountApi.SL
 {
@@ -24,7 +29,17 @@ namespace SportAccountApi.SL
             }
         }
 
+        public static async Task<User> GetCurrentUser(UserDAO userDAO, IHttpContextAccessor httpContextAccessor)
+        {
+            try
+            {
+                int userId = int.Parse(httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                return await userDAO.ByIdAsync(userId);
+            }
+            catch(Exception ex) { }
 
+            return null;
+        }
 
     }
 }

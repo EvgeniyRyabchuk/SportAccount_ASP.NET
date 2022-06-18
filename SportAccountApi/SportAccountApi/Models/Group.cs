@@ -9,9 +9,10 @@ namespace SportAccountApi.Models
 
         [Key]
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string Name { get; set; } 
 
-        public List<User> users { get; set; }  
+        [JsonIgnore]
+        public List<User> Users { get; set; }  
         
     }
 }

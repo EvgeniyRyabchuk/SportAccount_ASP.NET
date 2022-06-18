@@ -11,14 +11,16 @@ namespace SportAccountApi.Models
         public int Id { get; set; }
         
         [Required]
-        public DateTime date { get; set; }
+        public DateTime Date { get; set; }
+        
         [Required]
-        public int UserId { get; set; }
-        public User User { get; set; }
- 
+        [JsonIgnore]
+        public int CoachId { get; set; } 
+        public User Coach { get; set; }
+        
 
-        public DateTime startTime { get; set; }
-        public DateTime endTime { get; set; }
+        public DateTime StartTime { get; set; } 
+        public DateTime EndTime { get; set; }
 
     }
 }

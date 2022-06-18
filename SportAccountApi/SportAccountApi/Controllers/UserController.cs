@@ -13,25 +13,30 @@ using FilmsStorage.DAL;
 using SportAccountApi.DAL;
 using SportAccountApi.Mapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using SportAccountApi.SL;
+using SportAccountApi.DTO.Group;
 
 namespace SportAccountApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]")] 
     [ApiController]
     
     public class UserController : ControllerBase 
     {
         private readonly UserDAO userDAO;
-        private readonly RoleDAO roleDAO; 
-
-        public UserController(DataContext dataContext)
+        private readonly GroupDAO groupDAO;
+        private readonly RoleDAO roleDAO;
+        private readonly IHttpContextAccessor httpContextAccessor;
+        public UserController(DataContext dataContext, IHttpContextAccessor httpContextAccessor)
         {
             userDAO = new UserDAO(dataContext);
-            roleDAO = new RoleDAO(dataContext); 
+            roleDAO = new RoleDAO(dataContext);
+            groupDAO = new GroupDAO(dataContext);
+            this.httpContextAccessor = httpContextAccessor; 
         }
 
         [HttpGet]
-    
         public async Task<ActionResult<User>> Index()
         {
             try
@@ -46,7 +51,6 @@ namespace SportAccountApi.Controllers
         }
 
         [HttpGet("{id}")]
-
         public async Task<ActionResult<User>> Show(int id)
         {
             try
@@ -84,17 +88,47 @@ namespace SportAccountApi.Controllers
           
         }
 
-        [HttpPut]
-        public async Task<ActionResult<User>> Update(CreateUserDTO request)
+
+        [HttpPost("/{userId}/group/{groupId}")]
+        public async Task<ActionResult<User>> AddGroup(int userId, int groupId)
         {
             try
             {
-                Role role = await roleDAO.FindByIdAsync(request.RoleId);
+                User currentUser = await _SL.GetCurrentUser(userDAO, httpContextAccessor);
+                //TODO: temp code for debug 
+                if (currentUser == null) currentUser = await userDAO.ByIdAsync(1);
+                if (currentUser.Id != userId) return BadRequest("Page not found. 404"); 
 
-                User userMapped = UserMapper.FromCreateModel(request);
+                User user = await userDAO.ByIdAsync(userId);
+                Group group = await groupDAO.FindByIdAsync(groupId); 
 
-                //var user = await 
-                var list = await userDAO.UpdateAsync(userMapped);
+                var list = await userDAO.AddGroupAsync(user, group);
+                return Ok(list);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
+
+        [HttpPut]
+        public async Task<ActionResult<User>> Update(UpdateUserDTO request)
+        {
+            try
+            {
+                User currentUser = await _SL.GetCurrentUser(userDAO, httpContextAccessor);
+                //TODO: temp code for debug 
+                if (currentUser == null) currentUser = await userDAO.ByIdAsync(1); 
+                if(currentUser.Id != request.Id)
+                {
+                    return BadRequest("User does not found"); 
+                }
+
+                User UserFromRequest = UserMapper.FromUpdateModel(request); 
+
+                var list = await userDAO.UpdateAsync(UserFromRequest); 
 
                 return Ok(list);
             }
@@ -109,7 +143,7 @@ namespace SportAccountApi.Controllers
         {
             try
             {
-                var list = await userDAO.DeleteAsync(id);
+                var list = await userDAO.DeleteAsync(id); 
                 return Ok(list);
             }
             catch(Exception ex)

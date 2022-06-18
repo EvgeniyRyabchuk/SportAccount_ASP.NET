@@ -10,7 +10,7 @@ using SportAccountApi.Models;
 namespace SportAccountApi.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220617161553_CreateInitial")]
+    [Migration("20220618124145_CreateInitial")]
     partial class CreateInitial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,15 +23,15 @@ namespace SportAccountApi.Migrations
 
             modelBuilder.Entity("GroupUser", b =>
                 {
-                    b.Property<int>("groupsId")
+                    b.Property<int>("GroupsId")
                         .HasColumnType("int");
 
-                    b.Property<int>("usersId")
+                    b.Property<int>("UsersId")
                         .HasColumnType("int");
 
-                    b.HasKey("groupsId", "usersId");
+                    b.HasKey("GroupsId", "UsersId");
 
-                    b.HasIndex("usersId");
+                    b.HasIndex("UsersId");
 
                     b.ToTable("GroupUser");
                 });
@@ -49,6 +49,23 @@ namespace SportAccountApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Groups");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "GR-1"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "GR-2"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "GR-3"
+                        });
                 });
 
             modelBuilder.Entity("SportAccountApi.Models.Phone", b =>
@@ -131,21 +148,31 @@ namespace SportAccountApi.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<short>("areaSize")
+                    b.Property<short>("AreaSize")
                         .HasColumnType("smallint");
 
-                    b.Property<short>("floor")
+                    b.Property<short>("Floor")
                         .HasColumnType("smallint");
 
-                    b.Property<string>("name")
+                    b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("number")
+                    b.Property<int>("Number")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.ToTable("Rooms");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AreaSize = (short)20,
+                            Floor = (short)2,
+                            Name = "Large Dance Room",
+                            Number = 201
+                        });
                 });
 
             modelBuilder.Entity("SportAccountApi.Models.ScheduleWorkday", b =>
@@ -155,23 +182,33 @@ namespace SportAccountApi.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("UserId")
+                    b.Property<int>("CoachId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("date")
+                    b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("endTime")
+                    b.Property<DateTime>("EndTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("startTime")
+                    b.Property<DateTime>("StartTime")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("CoachId");
 
                     b.ToTable("ScheduleWorkdays");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CoachId = 1,
+                            Date = new DateTime(2022, 6, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            EndTime = new DateTime(2022, 6, 18, 18, 0, 0, 0, DateTimeKind.Unspecified),
+                            StartTime = new DateTime(2022, 6, 18, 9, 0, 0, 0, DateTimeKind.Unspecified)
+                        });
                 });
 
             modelBuilder.Entity("SportAccountApi.Models.ScheduleWorkout", b =>
@@ -181,10 +218,10 @@ namespace SportAccountApi.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("ClientId")
+                    b.Property<int?>("ClientId")
                         .HasColumnType("int");
 
-                    b.Property<int>("GroupId")
+                    b.Property<int?>("GroupId")
                         .HasColumnType("int");
 
                     b.Property<int>("RoomId")
@@ -196,7 +233,7 @@ namespace SportAccountApi.Migrations
                     b.Property<int>("WorkoutTypeId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("endT")
+                    b.Property<DateTime>("end")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("start")
@@ -210,9 +247,23 @@ namespace SportAccountApi.Migrations
 
                     b.HasIndex("RoomId");
 
+                    b.HasIndex("SheduleWorkdayId");
+
                     b.HasIndex("WorkoutTypeId");
 
                     b.ToTable("ScheduleWorkouts");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            GroupId = 1,
+                            RoomId = 1,
+                            SheduleWorkdayId = 1,
+                            WorkoutTypeId = 1,
+                            end = new DateTime(2022, 6, 18, 12, 0, 0, 0, DateTimeKind.Unspecified),
+                            start = new DateTime(2022, 6, 18, 9, 0, 0, 0, DateTimeKind.Unspecified)
+                        });
                 });
 
             modelBuilder.Entity("SportAccountApi.Models.Sex", b =>
@@ -292,6 +343,38 @@ namespace SportAccountApi.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("Statuses");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Main coach",
+                            RoleId = 2
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Coach",
+                            RoleId = 2
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Senior gym coach",
+                            RoleId = 2
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Manager",
+                            RoleId = 3
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "Head manager of the hall",
+                            RoleId = 3
+                        });
                 });
 
             modelBuilder.Entity("SportAccountApi.Models.User", b =>
@@ -334,10 +417,10 @@ namespace SportAccountApi.Migrations
                     b.Property<int>("SexId")
                         .HasColumnType("int");
 
-                    b.Property<int>("SpecializationId")
+                    b.Property<int?>("SpecializationId")
                         .HasColumnType("int");
 
-                    b.Property<int>("StatusId")
+                    b.Property<int?>("StatusId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("TokenCreated")
@@ -365,12 +448,27 @@ namespace SportAccountApi.Migrations
                             LastName = "LN",
                             Login = "12345",
                             MiddletName = "MN",
-                            PasswordHash = new byte[] { 167, 71, 216, 37, 245, 201, 61, 164, 0, 182, 85, 225, 49, 250, 220, 195, 61, 105, 153, 93, 221, 243, 249, 52, 107, 81, 89, 205, 229, 3, 205, 217, 90, 128, 157, 18, 204, 109, 42, 103, 95, 7, 188, 40, 56, 212, 22, 109, 109, 208, 139, 97, 219, 84, 102, 175, 91, 77, 117, 77, 53, 82, 163, 55 },
-                            PasswordSalt = new byte[] { 186, 58, 69, 179, 142, 145, 40, 172, 220, 129, 121, 188, 133, 249, 191, 189, 12, 11, 245, 131, 162, 42, 218, 72, 37, 110, 206, 108, 94, 251, 107, 39, 244, 175, 235, 129, 232, 68, 194, 42, 81, 211, 57, 168, 145, 50, 100, 32, 187, 31, 186, 120, 78, 214, 64, 236, 250, 102, 94, 212, 189, 226, 16, 62, 182, 171, 101, 162, 135, 25, 129, 63, 53, 64, 203, 90, 60, 158, 85, 132, 17, 130, 8, 230, 110, 114, 196, 61, 22, 216, 226, 236, 38, 81, 50, 11, 162, 80, 140, 121, 189, 188, 245, 109, 124, 160, 238, 88, 61, 26, 47, 110, 25, 22, 133, 36, 228, 88, 200, 57, 63, 102, 22, 89, 141, 13, 156, 79 },
+                            PasswordHash = new byte[] { 49, 167, 176, 133, 136, 164, 189, 100, 101, 241, 16, 24, 245, 138, 204, 228, 245, 17, 223, 222, 125, 169, 203, 189, 89, 27, 253, 145, 108, 145, 26, 82, 113, 216, 74, 242, 78, 102, 70, 151, 225, 217, 91, 17, 68, 118, 71, 74, 69, 100, 35, 87, 55, 89, 85, 151, 4, 211, 222, 124, 170, 127, 136, 92 },
+                            PasswordSalt = new byte[] { 129, 119, 161, 251, 4, 64, 181, 1, 6, 237, 16, 53, 242, 173, 0, 128, 62, 107, 105, 104, 184, 140, 80, 103, 182, 175, 90, 160, 231, 216, 227, 5, 192, 51, 152, 146, 48, 35, 241, 230, 118, 141, 248, 213, 166, 42, 176, 84, 208, 205, 114, 142, 168, 181, 254, 136, 202, 207, 6, 72, 232, 0, 136, 173, 57, 67, 143, 122, 210, 191, 7, 20, 133, 52, 138, 204, 42, 76, 211, 109, 124, 214, 68, 132, 175, 100, 125, 165, 89, 24, 227, 49, 186, 48, 215, 18, 79, 112, 248, 221, 142, 225, 64, 227, 254, 42, 23, 116, 40, 124, 159, 221, 199, 101, 152, 254, 224, 64, 246, 181, 173, 249, 255, 251, 66, 156, 92, 51 },
                             RoleId = 2,
                             SexId = 1,
                             SpecializationId = 1,
                             StatusId = 1,
+                            TokenCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TokenExpires = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 2,
+                            BirthDate = new DateTime(2001, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FirstName = "Rose",
+                            LastName = "RN",
+                            Login = "12345",
+                            MiddletName = "RM",
+                            PasswordHash = new byte[] { 49, 167, 176, 133, 136, 164, 189, 100, 101, 241, 16, 24, 245, 138, 204, 228, 245, 17, 223, 222, 125, 169, 203, 189, 89, 27, 253, 145, 108, 145, 26, 82, 113, 216, 74, 242, 78, 102, 70, 151, 225, 217, 91, 17, 68, 118, 71, 74, 69, 100, 35, 87, 55, 89, 85, 151, 4, 211, 222, 124, 170, 127, 136, 92 },
+                            PasswordSalt = new byte[] { 129, 119, 161, 251, 4, 64, 181, 1, 6, 237, 16, 53, 242, 173, 0, 128, 62, 107, 105, 104, 184, 140, 80, 103, 182, 175, 90, 160, 231, 216, 227, 5, 192, 51, 152, 146, 48, 35, 241, 230, 118, 141, 248, 213, 166, 42, 176, 84, 208, 205, 114, 142, 168, 181, 254, 136, 202, 207, 6, 72, 232, 0, 136, 173, 57, 67, 143, 122, 210, 191, 7, 20, 133, 52, 138, 204, 42, 76, 211, 109, 124, 214, 68, 132, 175, 100, 125, 165, 89, 24, 227, 49, 186, 48, 215, 18, 79, 112, 248, 221, 142, 225, 64, 227, 254, 42, 23, 116, 40, 124, 159, 221, 199, 101, 152, 254, 224, 64, 246, 181, 173, 249, 255, 251, 66, 156, 92, 51 },
+                            RoleId = 1,
+                            SexId = 2,
                             TokenCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TokenExpires = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
@@ -389,19 +487,31 @@ namespace SportAccountApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("WorkoutTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Group Type"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Personal Type"
+                        });
                 });
 
             modelBuilder.Entity("GroupUser", b =>
                 {
                     b.HasOne("SportAccountApi.Models.Group", null)
                         .WithMany()
-                        .HasForeignKey("groupsId")
+                        .HasForeignKey("GroupsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("SportAccountApi.Models.User", null)
                         .WithMany()
-                        .HasForeignKey("usersId")
+                        .HasForeignKey("UsersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -419,32 +529,34 @@ namespace SportAccountApi.Migrations
 
             modelBuilder.Entity("SportAccountApi.Models.ScheduleWorkday", b =>
                 {
-                    b.HasOne("SportAccountApi.Models.User", "User")
+                    b.HasOne("SportAccountApi.Models.User", "Coach")
                         .WithMany()
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("CoachId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("User");
+                    b.Navigation("Coach");
                 });
 
             modelBuilder.Entity("SportAccountApi.Models.ScheduleWorkout", b =>
                 {
                     b.HasOne("SportAccountApi.Models.User", "Client")
                         .WithMany()
-                        .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ClientId");
 
-                    b.HasOne("SportAccountApi.Models.Group", "group")
+                    b.HasOne("SportAccountApi.Models.Group", "Group")
                         .WithMany()
-                        .HasForeignKey("GroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("GroupId");
 
-                    b.HasOne("SportAccountApi.Models.Room", "room")
+                    b.HasOne("SportAccountApi.Models.Room", "Room")
                         .WithMany()
                         .HasForeignKey("RoomId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SportAccountApi.Models.ScheduleWorkday", "SheduleWorkday")
+                        .WithMany()
+                        .HasForeignKey("SheduleWorkdayId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -456,9 +568,11 @@ namespace SportAccountApi.Migrations
 
                     b.Navigation("Client");
 
-                    b.Navigation("group");
+                    b.Navigation("Group");
 
-                    b.Navigation("room");
+                    b.Navigation("Room");
+
+                    b.Navigation("SheduleWorkday");
 
                     b.Navigation("WorkoutType");
                 });
@@ -490,9 +604,7 @@ namespace SportAccountApi.Migrations
 
                     b.HasOne("SportAccountApi.Models.Specialization", "Specialization")
                         .WithMany()
-                        .HasForeignKey("SpecializationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("SpecializationId");
 
                     b.Navigation("Role");
 

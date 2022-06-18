@@ -9,17 +9,26 @@ namespace SportAccountApi.Models
 
         [Key]
         public int Id { get; set; }
+
+        public ScheduleWorkday SheduleWorkday { get; set; }
+        
+        [JsonIgnore]
+        [Required]
         public int SheduleWorkdayId { get; set; }
 
+  
+        
 
-        public int GroupId { get; set; }
-        public Group group { get; set; }
+        [JsonIgnore]
+        public int? GroupId { get; set; }
+        public Group Group { get; set; } = null; 
 
-        public int ClientId { get; set; } 
-        public User Client { get; set; } 
+        [JsonIgnore]
+        public int? ClientId { get; set; }
+        public User Client { get; set; } = null;
 
 
-        public Room room { get; set; }
+        public Room Room { get; set; }
         [JsonIgnore]
         public int RoomId { get; set; }
 
@@ -28,7 +37,7 @@ namespace SportAccountApi.Models
         public int WorkoutTypeId { get; set; }
 
         public DateTime start { get; set; }
-        public DateTime endT { get; set; }
+        public DateTime end { get; set; }
 
     }
 }
