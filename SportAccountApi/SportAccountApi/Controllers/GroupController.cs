@@ -5,6 +5,7 @@ using SportAccountApi.DTO.Group;
 using SportAccountApi.Mapper;
 using SportAccountApi.Models;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace SportAccountApi.Controllers
@@ -38,6 +39,19 @@ namespace SportAccountApi.Controllers
             }
         }
 
+
+        [HttpGet("{groupId}")]
+        public async Task<ActionResult<Group>> ShowAsync(int groupId)
+        {
+            Group group = await groupDAO.FindByIdAsync(groupId);
+            int count = 0; 
+            if (group.Users != null)
+                count = group.Users.Count; 
+
+            return Ok(new { group, count }); 
+        }
+
+
         [HttpPost]
         public async Task<IActionResult> StoreAsync(CreateGroupDTO createGroupDTO)
         {
@@ -53,6 +67,18 @@ namespace SportAccountApi.Controllers
             {
                 return BadRequest(ex.Message);
             }
+        }
+
+        [HttpGet("{groupId}/members")]
+        public async Task<IActionResult> GetAllMembersAsync(int groupId)
+        {
+            Group group = await groupDAO.FindByIdAsync(groupId);
+            ICollection<User> list = await userDAO.ByGroupIdAsync(groupId); 
+
+
+            if (list == null) list = new List<User>();  
+            
+            return Ok(list);
         }
     }
 }

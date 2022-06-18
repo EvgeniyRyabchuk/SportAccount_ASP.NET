@@ -2,6 +2,7 @@
 using SportAccountApi.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -30,14 +31,17 @@ namespace SportAccountApi.DAL
 
         public async Task<Models.Group> FindByIdAsync(int id)
         {
-            Models.Group group = await db.Groups.FindAsync(id);
+            Models.Group group = await db.Groups
+                .Where(g => g.Id == id)
+                .Include(g => g.Users).FirstAsync(); 
+            
             if (group == null) throw new Exception("Group does not exist"); 
             return group; 
         }
 
         public async Task<ICollection<Models.Group>> GetAllAsync()
         {
-            return await db.Groups.ToListAsync(); 
+            return await db.Groups.Include(g => g.Users).ToListAsync(); 
         }
 
         public async Task<ICollection<Models.Group>> UpdateAsync(Models.Group model)

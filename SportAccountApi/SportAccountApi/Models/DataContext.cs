@@ -23,6 +23,7 @@ namespace SportAccountApi.Models
 
 
         public DbSet<Group> Groups { get; set; }
+
         public DbSet<Room> Rooms { get; set; }
         public DbSet<ScheduleWorkday> ScheduleWorkdays { get; set; }
         public DbSet<ScheduleWorkout> ScheduleWorkouts { get; set; }
@@ -77,6 +78,13 @@ namespace SportAccountApi.Models
                  new Group { Id = 2, Name = "GR-2" }, 
                  new Group { Id = 3, Name = "GR-3" }
             );
+
+
+            //modelBuilder
+            //    .Entity<User>()
+            //    .HasMany(p => p.Groups)
+            //    .WithMany(p => p.Users)
+            //    .UsingEntity(j => j.ToTable("GroupUser"));
 
 
             string pwd = "123456789";

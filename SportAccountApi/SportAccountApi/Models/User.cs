@@ -48,7 +48,7 @@ namespace SportAccountApi.Models
 
         [JsonIgnore]
         public int SexId { get; set; } 
-        public Sex Sex { get; set; }
+        public Sex Sex { get; set; } 
 
 
         [JsonIgnore]

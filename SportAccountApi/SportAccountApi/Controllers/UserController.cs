@@ -90,7 +90,7 @@ namespace SportAccountApi.Controllers
 
 
         [HttpPost("/{userId}/group/{groupId}")]
-        public async Task<ActionResult<User>> AddGroup(int userId, int groupId)
+        public async Task<ActionResult<User>> AddUserToGroup(int userId, int groupId)
         {
             try
             {

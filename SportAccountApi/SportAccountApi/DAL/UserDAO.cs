@@ -55,6 +55,19 @@ namespace SportAccountApi.DAL
                 .FirstAsync();  
         }
 
+        public async Task<ICollection<User>> ByGroupIdAsync(int groupId)
+        {
+            ICollection<User> users = await db.Groups
+                .Where(g => g.Id == groupId)
+                .SelectMany(u => u.Users)
+                .Include(u => u.Sex)
+                .Include(u => u.Phones)
+                .Include(u => u.Specialization)
+                .Include(u => u.Role)
+                .ToListAsync();
+            return users; 
+        }
+
 
         public async Task<ICollection<User>> GetAllAsync() 
         {

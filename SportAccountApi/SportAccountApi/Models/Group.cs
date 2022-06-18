@@ -12,7 +12,7 @@ namespace SportAccountApi.Models
         public string Name { get; set; } 
 
         [JsonIgnore]
-        public List<User> Users { get; set; }  
+        public ICollection<User> Users { get; set; }  
         
     }
 }

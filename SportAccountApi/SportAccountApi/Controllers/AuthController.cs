@@ -144,7 +144,7 @@ namespace SportAccountApi.Controllers
            
             var refreshToken = new RefreshToken
             {
-                Token = Convert.ToBase64String(random),
+                Token = Convert.ToBase64String(random), 
                 Expires = DateTime.Now.AddDays(7),
                 Created = DateTime.Now
             };
