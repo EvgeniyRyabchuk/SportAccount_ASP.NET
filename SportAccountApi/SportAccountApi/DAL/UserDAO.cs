@@ -129,7 +129,7 @@ namespace SportAccountApi.DAL
             
             user.FirstName = request.FirstName;
             user.LastName = request.LastName;
-            user.MiddletName = request.MiddletName;
+            user.MiddleName = request.MiddleName;
             user.BirthDate = request.BirthDate;
 
             await db.SaveChangesAsync();

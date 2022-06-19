@@ -25,6 +25,8 @@ namespace SportAccountApi.Controllers
     {
         private readonly UserDAO userDAO;
         private readonly RoleDAO roleDAO;
+        private readonly RefreshTokenDAO refreshTokenDAO;
+
         private readonly IConfiguration _confiuration;
         private readonly IHttpContextAccessor httpContextAccessor; 
         //public static User user = new User();
@@ -35,6 +37,7 @@ namespace SportAccountApi.Controllers
             userDAO = new UserDAO(dataContext);
             roleDAO = new RoleDAO(dataContext);
             _confiuration = configuration;
+            refreshTokenDAO = new RefreshTokenDAO(dataContext); 
             //_userManager = userManager;
 
             this.httpContextAccessor = httpContextAccessor; 
@@ -49,7 +52,7 @@ namespace SportAccountApi.Controllers
             {
                 return BadRequest();
             }
-
+            
             //if (registerRequest.Password != registerRequest.ConfirmPassword)
             //{
             //    return BadRequest(new ErrorResponse("Password does not match confirm password."));
@@ -73,13 +76,13 @@ namespace SportAccountApi.Controllers
 
         
         [HttpPost("login")]
-        public async Task<ActionResult<User>> Login(CreateUserDTO request)
+        public async Task<ActionResult<User>> Login(LogInDTO request)
         {
-            User user = await userDAO.ByLoginAsync(request.Login);
+            User user = await userDAO.ByLoginAsync(request.login);
             if (user == null)
                 return BadRequest("User not exist");
 
-            if (!_SL.VerifyPasswordHash(request.Password, user.PasswordHash, user.PasswordSalt))
+            if (!_SL.VerifyPasswordHash(request.password, user.PasswordHash, user.PasswordSalt))
             {
                 return BadRequest("Wrong password.");
             }
@@ -87,14 +90,23 @@ namespace SportAccountApi.Controllers
 
             string token = CreateToken(user);
 
-            var refreshToken = GenerateRefreshToken(); 
-            await SetRefreshToken(refreshToken, user); 
-            
+            var refreshToken = GenerateRefreshToken();
+
+            await SetRefreshToken(refreshToken, user);
+
+            await SaveRefreshTokenToDbAsync(refreshToken, user); 
+
             return Ok(token); 
+        }
+        
+        private async Task<ICollection<_RefreshToken>> SaveRefreshTokenToDbAsync(RefreshToken refreshToken, User user)
+        {
+            _RefreshToken rf = RefreshTokenMapper.FromRefreshTokenClass(refreshToken, user);
+            var list = await refreshTokenDAO.AddAsync(rf);
+            return list; 
         }
 
         
-
         [HttpPost("refresh-token"), Authorize]
         public async Task<ActionResult<string>> RefreshToken() 
         {
@@ -105,21 +117,29 @@ namespace SportAccountApi.Controllers
                 return Unauthorized("No Refresh Token.");
             }
 
+            // get refresh token from db 
+            _RefreshToken rf = await refreshTokenDAO.FindByTokenAsync(refreshToken);
+            //get current user 
             User user = await _SL.GetCurrentUser(userDAO, httpContextAccessor);
-
-            if (!user.RefreshToken.Equals(refreshToken))
+            // if refresh token belongs current user 
+            if (rf.UserId != user.Id) 
+            {
+                return Unauthorized("Invalid Refresh Token For Current User");
+            }
+            
+            if (!rf.RefreshToken.Equals(refreshToken))
             {
                 return Unauthorized("Invalid Refresh Token."); 
             }
-            else if (user.TokenExpires < DateTime.Now)
+            else if (rf.Expired_At < DateTime.Now)
             {
                 return Unauthorized("Token expired."); 
             }
 
             string token = CreateToken(user);
-            var newRefreshToken = GenerateRefreshToken();
-            await SetRefreshToken(newRefreshToken, user); 
-
+            var newRefreshToken = GenerateRefreshToken(); 
+            await SetRefreshToken(newRefreshToken, user);
+            await SaveRefreshTokenToDbAsync(newRefreshToken, user); 
             return Ok(token);
         }
 
@@ -128,20 +148,30 @@ namespace SportAccountApi.Controllers
         [HttpPost("logout"), Authorize]
         public async Task<ActionResult> Logout()
         {
+            var refreshToken = Request.Cookies["refreshToken"];
+            
+            await refreshTokenDAO.DeleteByTokenAsync(refreshToken); 
+
             Response.Cookies.Delete("refreshToken");
             
-            User current = await _SL.GetCurrentUser(userDAO, httpContextAccessor);   
-            current.TokenExpires = DateTime.Now;
-            current.RefreshToken = null; 
-            await userDAO.UpdateAsync(current); 
             return Ok("user is logged out");
-            //var user = await _userManager.GetUserAsync(User);
+            #region currentUSer 
+            /* 
+                //var user = await _userManager.GetUserAsync(User); 
 
-            //var userId = httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            //string userId = HttpContext.User.FindFirstValue("id"); 
+                //var userId = httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                //string userId = HttpContext.User.FindFirstValue("id"); 
 
+            
+        //public User GetCurrentUser()
+        //{
+        //    ClaimsPrincipal currentUser = User;
+        //    var user = _userManager.GetUserAsync(User).Result;
+        //    return user;
+        //}
+            */
+            #endregion
         }
-
 
         private RefreshToken GenerateRefreshToken()
         {
@@ -149,11 +179,11 @@ namespace SportAccountApi.Controllers
             //RNGCryptoServiceProvider is an implementation of a random number generator.
             RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
             rng.GetBytes(random); // The array is now filled with cryptographically strong random bytes.
-           
+            
             var refreshToken = new RefreshToken
             {
                 Token = Convert.ToBase64String(random), 
-                Expires = DateTime.Now.AddDays(7),
+                Expires = DateTime.Now.AddMinutes(1),
                 Created = DateTime.Now
             };
 
@@ -169,20 +199,8 @@ namespace SportAccountApi.Controllers
             };
             Response.Cookies.Append("refreshToken", newRefreshToken.Token, cookieOptions);
 
-            user.RefreshToken = newRefreshToken.Token;
-            user.TokenCreated = newRefreshToken.Created;
-            user.TokenExpires = newRefreshToken.Expires;
             await userDAO.UpdateAsync(user); 
         }
-
-
-        //public User GetCurrentUser()
-        //{
-        //    ClaimsPrincipal currentUser = User;
-        //    var user = _userManager.GetUserAsync(User).Result;
-        //    return user;
-        //}
-
         
         private string CreateToken(User user)
         {

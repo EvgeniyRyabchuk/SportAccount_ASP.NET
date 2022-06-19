@@ -28,8 +28,8 @@ namespace SportAccountApi.Models
         public DbSet<ScheduleWorkday> ScheduleWorkdays { get; set; }
         public DbSet<ScheduleWorkout> ScheduleWorkouts { get; set; }
         public DbSet<WorkoutType> WorkoutTypes { get; set; }
-
- 
+        
+        public DbSet<_RefreshToken> RefreshTokens { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -96,7 +96,7 @@ namespace SportAccountApi.Models
                 Id = 1,
                 FirstName = "Jeka",
                 LastName = "LN",
-                MiddletName = "MN", 
+                MiddleName = "MN", 
                 BirthDate = new DateTime(2001, 01, 31),
                 RoleId = 2,
                 Login = "12345",
@@ -113,7 +113,7 @@ namespace SportAccountApi.Models
                 Id = 2,
                 FirstName = "Rose",
                 LastName = "RN",
-                MiddletName = "RM",
+                MiddleName = "RM",
                 BirthDate = new DateTime(2001, 01, 31),
                 RoleId = 1,
                 Login = "12345",

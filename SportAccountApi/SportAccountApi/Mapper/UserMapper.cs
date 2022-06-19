@@ -14,7 +14,7 @@ namespace SportAccountApi.Mapper
             {
                 FirstName = createModel.FirstName,
                 LastName = createModel.LastName,
-                MiddletName = createModel.MiddletName,
+                MiddleName = createModel.MiddletName,
                 Login = createModel.Login, 
                 PasswordHash = passwordHash,
                 PasswordSalt = passwordSalt,
@@ -32,7 +32,7 @@ namespace SportAccountApi.Mapper
                 Id = createModel.Id,
                 FirstName = createModel.FirstName,
                 LastName = createModel.LastName,
-                MiddletName = createModel.MiddletName,
+                MiddleName = createModel.MiddletName,
                 BirthDate = createModel.BirthDate,
             };
         }

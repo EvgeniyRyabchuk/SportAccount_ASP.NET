@@ -10,7 +10,7 @@ using SportAccountApi.Models;
 namespace SportAccountApi.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220618164613_CreateInitial")]
+    [Migration("20220619150153_CreateInitial")]
     partial class CreateInitial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -399,7 +399,7 @@ namespace SportAccountApi.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("MiddletName")
+                    b.Property<string>("MiddleName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<byte[]>("PasswordHash")
@@ -407,9 +407,6 @@ namespace SportAccountApi.Migrations
 
                     b.Property<byte[]>("PasswordSalt")
                         .HasColumnType("varbinary(max)");
-
-                    b.Property<string>("RefreshToken")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("RoleId")
                         .HasColumnType("int");
@@ -422,12 +419,6 @@ namespace SportAccountApi.Migrations
 
                     b.Property<int?>("StatusId")
                         .HasColumnType("int");
-
-                    b.Property<DateTime>("TokenCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("TokenExpires")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -447,15 +438,13 @@ namespace SportAccountApi.Migrations
                             FirstName = "Jeka",
                             LastName = "LN",
                             Login = "12345",
-                            MiddletName = "MN",
-                            PasswordHash = new byte[] { 129, 80, 172, 109, 120, 100, 188, 75, 69, 80, 27, 77, 138, 81, 76, 60, 195, 13, 156, 171, 124, 126, 124, 109, 31, 134, 42, 153, 242, 200, 214, 159, 38, 144, 31, 221, 106, 248, 38, 127, 66, 88, 175, 172, 226, 46, 125, 41, 33, 150, 147, 245, 144, 86, 7, 53, 248, 98, 141, 26, 52, 114, 68, 247 },
-                            PasswordSalt = new byte[] { 115, 148, 225, 27, 170, 7, 195, 73, 82, 51, 84, 194, 7, 38, 52, 38, 88, 216, 73, 40, 75, 176, 155, 243, 43, 229, 100, 251, 208, 254, 67, 149, 215, 176, 127, 72, 84, 25, 240, 48, 180, 82, 33, 212, 106, 173, 21, 30, 213, 182, 159, 76, 181, 182, 133, 173, 164, 21, 2, 186, 13, 22, 34, 165, 237, 240, 24, 61, 251, 154, 116, 39, 19, 215, 161, 216, 94, 202, 45, 69, 174, 75, 53, 236, 98, 48, 203, 217, 133, 136, 17, 251, 108, 219, 233, 74, 236, 248, 244, 132, 69, 3, 26, 123, 66, 44, 231, 53, 152, 116, 116, 136, 233, 20, 215, 65, 179, 29, 185, 155, 32, 112, 152, 198, 234, 86, 21, 206 },
+                            MiddleName = "MN",
+                            PasswordHash = new byte[] { 49, 165, 64, 78, 80, 118, 163, 50, 159, 27, 189, 142, 232, 202, 149, 9, 102, 157, 167, 27, 146, 145, 64, 127, 17, 157, 167, 49, 37, 245, 177, 29, 190, 59, 238, 149, 190, 210, 52, 10, 59, 170, 103, 252, 61, 137, 29, 110, 134, 3, 178, 22, 117, 63, 197, 167, 84, 62, 123, 73, 96, 85, 102, 156 },
+                            PasswordSalt = new byte[] { 255, 101, 133, 120, 105, 239, 206, 45, 166, 245, 119, 45, 158, 19, 140, 22, 242, 228, 207, 93, 24, 62, 49, 97, 223, 64, 9, 87, 121, 81, 251, 18, 26, 228, 70, 95, 83, 100, 12, 154, 183, 186, 169, 128, 158, 94, 68, 43, 132, 224, 126, 156, 5, 175, 20, 164, 174, 207, 25, 19, 221, 59, 94, 134, 187, 226, 46, 96, 41, 254, 87, 136, 8, 183, 87, 176, 87, 165, 95, 114, 158, 68, 38, 218, 191, 174, 133, 182, 241, 93, 195, 5, 40, 127, 174, 189, 184, 39, 193, 60, 239, 34, 101, 240, 209, 66, 150, 161, 182, 152, 154, 212, 64, 251, 154, 7, 204, 182, 188, 68, 209, 68, 72, 213, 233, 37, 68, 139 },
                             RoleId = 2,
                             SexId = 1,
                             SpecializationId = 1,
-                            StatusId = 1,
-                            TokenCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TokenExpires = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            StatusId = 1
                         },
                         new
                         {
@@ -464,13 +453,11 @@ namespace SportAccountApi.Migrations
                             FirstName = "Rose",
                             LastName = "RN",
                             Login = "12345",
-                            MiddletName = "RM",
-                            PasswordHash = new byte[] { 129, 80, 172, 109, 120, 100, 188, 75, 69, 80, 27, 77, 138, 81, 76, 60, 195, 13, 156, 171, 124, 126, 124, 109, 31, 134, 42, 153, 242, 200, 214, 159, 38, 144, 31, 221, 106, 248, 38, 127, 66, 88, 175, 172, 226, 46, 125, 41, 33, 150, 147, 245, 144, 86, 7, 53, 248, 98, 141, 26, 52, 114, 68, 247 },
-                            PasswordSalt = new byte[] { 115, 148, 225, 27, 170, 7, 195, 73, 82, 51, 84, 194, 7, 38, 52, 38, 88, 216, 73, 40, 75, 176, 155, 243, 43, 229, 100, 251, 208, 254, 67, 149, 215, 176, 127, 72, 84, 25, 240, 48, 180, 82, 33, 212, 106, 173, 21, 30, 213, 182, 159, 76, 181, 182, 133, 173, 164, 21, 2, 186, 13, 22, 34, 165, 237, 240, 24, 61, 251, 154, 116, 39, 19, 215, 161, 216, 94, 202, 45, 69, 174, 75, 53, 236, 98, 48, 203, 217, 133, 136, 17, 251, 108, 219, 233, 74, 236, 248, 244, 132, 69, 3, 26, 123, 66, 44, 231, 53, 152, 116, 116, 136, 233, 20, 215, 65, 179, 29, 185, 155, 32, 112, 152, 198, 234, 86, 21, 206 },
+                            MiddleName = "RM",
+                            PasswordHash = new byte[] { 49, 165, 64, 78, 80, 118, 163, 50, 159, 27, 189, 142, 232, 202, 149, 9, 102, 157, 167, 27, 146, 145, 64, 127, 17, 157, 167, 49, 37, 245, 177, 29, 190, 59, 238, 149, 190, 210, 52, 10, 59, 170, 103, 252, 61, 137, 29, 110, 134, 3, 178, 22, 117, 63, 197, 167, 84, 62, 123, 73, 96, 85, 102, 156 },
+                            PasswordSalt = new byte[] { 255, 101, 133, 120, 105, 239, 206, 45, 166, 245, 119, 45, 158, 19, 140, 22, 242, 228, 207, 93, 24, 62, 49, 97, 223, 64, 9, 87, 121, 81, 251, 18, 26, 228, 70, 95, 83, 100, 12, 154, 183, 186, 169, 128, 158, 94, 68, 43, 132, 224, 126, 156, 5, 175, 20, 164, 174, 207, 25, 19, 221, 59, 94, 134, 187, 226, 46, 96, 41, 254, 87, 136, 8, 183, 87, 176, 87, 165, 95, 114, 158, 68, 38, 218, 191, 174, 133, 182, 241, 93, 195, 5, 40, 127, 174, 189, 184, 39, 193, 60, 239, 34, 101, 240, 209, 66, 150, 161, 182, 152, 154, 212, 64, 251, 154, 7, 204, 182, 188, 68, 209, 68, 72, 213, 233, 37, 68, 139 },
                             RoleId = 1,
-                            SexId = 2,
-                            TokenCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TokenExpires = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            SexId = 2
                         });
                 });
 
@@ -499,6 +486,33 @@ namespace SportAccountApi.Migrations
                             Id = 2,
                             Name = "Personal Type"
                         });
+                });
+
+            modelBuilder.Entity("SportAccountApi.Models._RefreshToken", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("Created_At")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("Expired_At")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("RefreshToken")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("RefreshTokens");
                 });
 
             modelBuilder.Entity("GroupUser", b =>
@@ -611,6 +625,17 @@ namespace SportAccountApi.Migrations
                     b.Navigation("Sex");
 
                     b.Navigation("Specialization");
+                });
+
+            modelBuilder.Entity("SportAccountApi.Models._RefreshToken", b =>
+                {
+                    b.HasOne("SportAccountApi.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("SportAccountApi.Models.User", b =>

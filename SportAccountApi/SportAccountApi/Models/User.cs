@@ -17,7 +17,7 @@ namespace SportAccountApi.Models
         public string FirstName { get; set; }
         [Required]
         public string LastName { get; set; }
-        public string MiddletName { get; set; }
+        public string MiddleName { get; set; }
         [Required]
         public string Login { get; set; }
 
@@ -25,13 +25,6 @@ namespace SportAccountApi.Models
         public byte[] PasswordHash { get; set; }
         [JsonIgnore]
         public byte[] PasswordSalt { get; set; }
-        [JsonIgnore]
-        public string RefreshToken { get; set; }
-        [JsonIgnore]
-        public DateTime TokenCreated { get; set; }
-        [JsonIgnore]
-        public DateTime TokenExpires { get; set; } 
-
 
         [Required]
         public DateTime BirthDate { get; set; }

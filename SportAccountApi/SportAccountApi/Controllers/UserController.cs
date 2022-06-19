@@ -36,7 +36,7 @@ namespace SportAccountApi.Controllers
             this.httpContextAccessor = httpContextAccessor; 
         }
 
-        [HttpGet]
+        [HttpGet, Authorize]
         public async Task<ActionResult<User>> Index()
         {
             try
