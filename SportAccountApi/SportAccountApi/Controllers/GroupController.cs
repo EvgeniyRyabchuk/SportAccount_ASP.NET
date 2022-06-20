@@ -31,7 +31,7 @@ namespace SportAccountApi.Controllers
             {
                 var list = await groupDAO.GetAllAsync();
 
-                return Ok(list);
+                return Ok(list); 
             }
             catch (Exception ex)
             {

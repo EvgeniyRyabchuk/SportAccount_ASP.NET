@@ -41,7 +41,25 @@ namespace SportAccountApi.DAL
 
             return role;
         }
+        public async Task<Role> FindByNameAsync(string name)
+        {
+            Role role = null;
+            try
+            {
+                role = await db.Roles
+                 .Where(u => u.Name == name)
+                 .FirstAsync();
+            }
+            catch (Exception ex)
+            {
+                if (role == null)
+                    throw new Exception("Role does't exist");
+                else
+                    throw;
+            }
 
+            return role;
+        }
         public async Task<ICollection<Role>> AddAsync(Role role)
         {
             await db.Roles.AddAsync(role);

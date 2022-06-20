@@ -1,11 +1,11 @@
 import React from 'react';
 
-const WorkDayListPage = () => {
+const Err404 = () => {
     return (
         <div>
-
+            404. Page Not Found
         </div>
     );
 };
 
-export default WorkDayListPage;
+export default Err404;

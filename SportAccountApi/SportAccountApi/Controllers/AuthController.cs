@@ -43,7 +43,23 @@ namespace SportAccountApi.Controllers
             this.httpContextAccessor = httpContextAccessor; 
 
         }
-        // 14: 175 177
+        
+        [HttpGet("current"), Authorize]
+        public async Task<ActionResult<User>> Current() 
+        {
+            try
+            {
+                User user = await _SL.GetCurrentUser(userDAO, httpContextAccessor);
+                if (user == null)
+                    return BadRequest(); 
+                return Ok(user);
+            } 
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+       
+        }
 
         [HttpPost("register")]
         public async Task<ActionResult<User>> Registrate(CreateUserDTO request)
@@ -74,7 +90,6 @@ namespace SportAccountApi.Controllers
 
         }
 
-        
         [HttpPost("login")]
         public async Task<ActionResult<User>> Login(LogInDTO request)
         {
@@ -96,7 +111,7 @@ namespace SportAccountApi.Controllers
 
             await SaveRefreshTokenToDbAsync(refreshToken, user); 
 
-            return Ok(token); 
+            return Ok(new { accessToken = token }); 
         }
         
         private async Task<ICollection<_RefreshToken>> SaveRefreshTokenToDbAsync(RefreshToken refreshToken, User user)
@@ -106,8 +121,17 @@ namespace SportAccountApi.Controllers
             return list; 
         }
 
-        
-        [HttpPost("refresh-token"), Authorize]
+        private async Task<ICollection<_RefreshToken>> UpdateRefreshTokenToDbAsync(RefreshToken newToken, string oldToken)
+        {
+            _RefreshToken rf = await refreshTokenDAO.FindByTokenAsync(oldToken);
+            rf.Updated_At = DateTime.Now;
+            rf.RefreshToken = newToken.Token; 
+
+            var list = await refreshTokenDAO.UpdateAsync(rf);
+            return list;
+        }
+
+        [HttpPost("refresh-token")]
         public async Task<ActionResult<string>> RefreshToken() 
         {
             var refreshToken = Request.Cookies["refreshToken"];
@@ -116,17 +140,11 @@ namespace SportAccountApi.Controllers
             {
                 return Unauthorized("No Refresh Token.");
             }
-
             // get refresh token from db 
             _RefreshToken rf = await refreshTokenDAO.FindByTokenAsync(refreshToken);
             //get current user 
-            User user = await _SL.GetCurrentUser(userDAO, httpContextAccessor);
-            // if refresh token belongs current user 
-            if (rf.UserId != user.Id) 
-            {
-                return Unauthorized("Invalid Refresh Token For Current User");
-            }
-            
+            User user = await userDAO.FindByIdAsync(rf.UserId);
+
             if (!rf.RefreshToken.Equals(refreshToken))
             {
                 return Unauthorized("Invalid Refresh Token."); 
@@ -136,11 +154,11 @@ namespace SportAccountApi.Controllers
                 return Unauthorized("Token expired."); 
             }
 
-            string token = CreateToken(user);
+            string accessToken = CreateToken(user);
             var newRefreshToken = GenerateRefreshToken(); 
             await SetRefreshToken(newRefreshToken, user);
-            await SaveRefreshTokenToDbAsync(newRefreshToken, user); 
-            return Ok(token);
+            await UpdateRefreshTokenToDbAsync(newRefreshToken, refreshToken);
+            return Ok(new { accessToken = accessToken });
         }
 
         //TODO: logout 
@@ -183,7 +201,7 @@ namespace SportAccountApi.Controllers
             var refreshToken = new RefreshToken
             {
                 Token = Convert.ToBase64String(random), 
-                Expires = DateTime.Now.AddMinutes(1),
+                Expires = DateTime.Now.AddMinutes(60),
                 Created = DateTime.Now
             };
 
@@ -195,8 +213,11 @@ namespace SportAccountApi.Controllers
             var cookieOptions = new CookieOptions
             {
                 HttpOnly = true,
-                Expires = newRefreshToken.Expires
+                Expires = newRefreshToken.Expires,
+                SameSite = SameSiteMode.None,
+                Secure = true
             };
+            
             Response.Cookies.Append("refreshToken", newRefreshToken.Token, cookieOptions);
 
             await userDAO.UpdateAsync(user); 
@@ -216,9 +237,11 @@ namespace SportAccountApi.Controllers
             
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
 
-            var token = new JwtSecurityToken(
+            DateTime exp = DateTime.Now.AddSeconds(60); 
+
+            var token = new JwtSecurityToken( 
                 claims: claims,
-                expires: DateTime.Now.AddMinutes(1), 
+                expires: exp,
                 signingCredentials: creds);
 
             var jwt = new JwtSecurityTokenHandler().WriteToken(token);

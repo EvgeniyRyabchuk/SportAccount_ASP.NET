@@ -43,7 +43,7 @@ namespace SportAccountApi.Models
             });
 
             modelBuilder.Entity<Role>().HasData(
-                new Role { Id = 1, Name = "Client" },
+                new Role { Id = 1, Name = "Client" }, 
                 new Role { Id = 2, Name = "Coach" },
                 new Role { Id = 3, Name = "Admin" }
             );

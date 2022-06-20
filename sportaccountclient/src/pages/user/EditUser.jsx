@@ -1,11 +1,11 @@
 import React from 'react';
 
-const GroupListPage = () => {
+const EditUser = () => {
     return (
         <div>
-
+            EditUser
         </div>
     );
 };
 
-export default GroupListPage;
+export default EditUser;

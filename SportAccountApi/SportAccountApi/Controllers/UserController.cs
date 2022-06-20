@@ -50,6 +50,43 @@ namespace SportAccountApi.Controllers
      
         }
 
+        [HttpGet("coach")]
+        public async Task<ActionResult<User>> GetAllCoachAsync()
+        {
+            try
+            {
+                Role role = await roleDAO.FindByNameAsync("Coach");
+                var list = await userDAO.GetAllByRoleIdAsync(role.Id); 
+                return Ok(list); 
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
+
+
+        [HttpGet("coach/{coachId}")]
+        public async Task<ActionResult<User>> GetAllCoachAsync(int coachId)
+        {
+            try
+            {
+                User coach = await userDAO.ByIdAsync(coachId);
+                if(coach == null || coach.Role.Name != "Coach")
+                      return NotFound("Page not found");
+                
+                return Ok(coach);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
+
+
+
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> Show(int id)
         {

@@ -41,14 +41,17 @@ namespace SportAccountApi
                     )
 
                 ); // добавляем сервисы CORS
+
+
             services.AddControllers();
             services.AddDbContext<DataContext>(options => options.UseSqlServer(connection)); 
+
             services.AddSwaggerGen(c => 
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "SportAccountApi", Version = "v1" });
 
             });
-
+            
             services.AddSwaggerGen(options => {
                 options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
                 {
@@ -70,7 +73,9 @@ namespace SportAccountApi
                      IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8
                          .GetBytes(Configuration.GetSection("AppSettings:Token").Value)),
                      ValidateIssuer = false,
-                     ValidateAudience = false
+                     ValidateAudience = false,
+                     ValidateLifetime = true,
+                     ClockSkew = TimeSpan.Zero
                  };
              });
 
@@ -95,13 +100,19 @@ namespace SportAccountApi
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "SportAccountApi v1"));
             }
 
-          
+ 
 
             app.UseHttpsRedirection();
 
             app.UseRouting();
 
-            app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+            app.UseCors(x => x
+              .AllowAnyMethod()
+              .AllowAnyHeader()
+              .SetIsOriginAllowed(origin => true) // allow any origin
+              .AllowCredentials()); // allow credentials
+
+            //app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AlloAnC);
 
             app.UseAuthentication();
 

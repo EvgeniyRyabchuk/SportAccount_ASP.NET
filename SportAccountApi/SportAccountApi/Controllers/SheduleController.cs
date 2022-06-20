@@ -12,7 +12,7 @@ namespace SportAccountApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SheduleController : Controller
+    public class ScheduleController : Controller
     {
 
         private readonly UserDAO userDAO;
@@ -22,7 +22,7 @@ namespace SportAccountApi.Controllers
         private readonly WorkoutDAO workoutDAO;
 
         private readonly IHttpContextAccessor httpContextAccessor;
-        public SheduleController(DataContext dataContext, IHttpContextAccessor httpContextAccessor)
+        public ScheduleController(DataContext dataContext, IHttpContextAccessor httpContextAccessor)
         {
             userDAO = new UserDAO(dataContext);
             roleDAO = new RoleDAO(dataContext);

@@ -12,6 +12,8 @@ namespace SportAccountApi.Models
         [Required]
         public DateTime Expired_At { get; set; }
         [Required]
+        public DateTime Updated_At { get; set; }
+        [Required]
         public DateTime Created_At { get; set; }
 
         public User User { get; set; } 

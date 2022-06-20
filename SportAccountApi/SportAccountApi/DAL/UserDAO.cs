@@ -82,6 +82,34 @@ namespace SportAccountApi.DAL
                 .ToListAsync();
         }
 
+        //public async Task<User> ByRoleIdAsync(,int roleId)
+        //{
+        //    return await db.Users
+        //        .Where(u => u.RoleId == roleId)
+        //        .Include(u => u.Role)
+        //        .Include(u => u.Specialization)
+        //        //.Include(u => u.StatusId)
+        //        .Include(u => u.Sex)
+        //        .Include(u => u.Role)
+        //        .Include(u => u.Phones)
+        //        .Include(u => u.Groups)
+        //        .FirstAsync();
+        //}
+
+        public async Task<ICollection<User>> GetAllByRoleIdAsync(int roleId)
+        {
+            return await db.Users
+                .Where(u => u.RoleId == roleId) 
+                .Include(u => u.Role) 
+                .Include(u => u.Specialization)
+                //.Include(u => u.StatusId)
+                .Include(u => u.Sex) 
+                .Include(u => u.Role)
+                .Include(u => u.Phones)
+                .Include(u => u.Groups)
+                .ToListAsync();
+        }
+
         public async Task<User> FindByIdAsync(int id)
         {
             User user = await db.Users
