@@ -11,7 +11,6 @@ const WorkDayListPage = () => {
     const [coach, setCoach] = useState(null);
     const [workdays, setWorkdays] = useState(null);
 
-
     const getCoach = async () => {
         const res = await CoachService.show(coachId);
         const data = res.data;
@@ -60,7 +59,7 @@ const WorkDayListPage = () => {
 
                         <a className='btn btn-primary mx-1'
                            type='button'
-                           href={`/coach/${e.id}/schedule/workday`}>
+                           href={`/coach/${e.id}/schedule/workday/${e.id}`}>
                             See Workouts
                         </a>
                     </li>

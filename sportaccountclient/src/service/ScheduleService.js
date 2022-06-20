@@ -6,6 +6,15 @@ export default class ScheduleService {
         return await $api.get(`${API_URL}/schedule/coach/${coachid}/workday`);
     }
 
+    static async GetWorkDayById(coachid, workdayId)  {
+        return await $api.get(`${API_URL}/schedule/coach/${coachid}/workday/${workdayId}`);
+    }
+
+    static async GetWorkOutsByCoachId(coachid, workdayId)  {
+        return await $api.get
+        (`${API_URL}/schedule/coach/${coachid}/workday/${workdayId}/workout`);
+    }
+
     static async Show(id) {
         return $api.get( `${API_URL}/user/${id}`)
     }

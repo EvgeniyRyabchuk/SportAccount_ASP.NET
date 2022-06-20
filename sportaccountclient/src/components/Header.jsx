@@ -109,6 +109,7 @@ const Header = () => {
                             <NavDropdown.Item eventKey="4.2">Another action</NavDropdown.Item>
                             <NavDropdown.Item eventKey="4.3">Something else here</NavDropdown.Item>
                             <NavDropdown.Divider />
+                            {/* //TODO: log out  */}
                             <NavDropdown.Item eventKey="4.4">Log out</NavDropdown.Item>
                         </NavDropdown> :
 

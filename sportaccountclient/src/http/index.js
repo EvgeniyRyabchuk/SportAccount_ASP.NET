@@ -16,6 +16,16 @@ $api.interceptors.request.use((config) => {
     return config;
 })
 
+function isCookieExist(cookieName) {
+    console.log('123');
+    const theCookies = document.cookie.split(';');
+    for (let i of theCookies) {
+        if(i == cookieName)
+            return true;
+    }
+    return false;
+}
+
 $api.interceptors.response.use((config) => {
     return config;
 },async (error) => {
@@ -24,8 +34,16 @@ $api.interceptors.response.use((config) => {
         originalRequest._isRetry = true;
         try {
             //TODO: check if cookie exist
-            const response = await axios.post(`${API_URL}/auth/refresh-token`, {withCredentials: true})
-            localStorage.setItem('token', response.data.accessToken);
+            const response = await fetch(`${API_URL}/auth/refresh-token`,
+                {
+                    credentials: "include",
+                    method: 'POST'
+                }
+            );
+            const data = await response.json();
+            localStorage.setItem('token', data.accessToken);
+            originalRequest.headers.Authorization = `Bearer ${localStorage.getItem('token')}`;
+
             return $api.request(originalRequest);
         } catch (e) {
 
