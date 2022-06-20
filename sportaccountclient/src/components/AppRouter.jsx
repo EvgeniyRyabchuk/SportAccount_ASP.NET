@@ -1,22 +1,28 @@
 import React from 'react';
-import {Redirect, Route, Switch} from "react-router-dom";
-import { publicRoutes } from '../router/route';
+import {Navigate, Route, Routes } from "react-router-dom";
+import { routes } from '../router/route';
+import Home from "../pages/Home";
 
 const AppRouter = () => {
     
     return (
-        <Switch>
-            {publicRoutes.map(e =>
+        <Routes>
+            <Route path="/" element={ <Home /> } />
+
+            {routes.map(e =>
                 <Route
                     key={e.path}
                     path={e.path}
-                    component={e.component}
-                    exact={e.exact}>
+                    element={e.component}
+                    >
                 </Route>
             )}
-            <Redirect exact from="/" to="/home"/>
-            <Redirect exact to="/pagenotfound"/> 
-        </Switch>
+
+            <Route
+                path="*"
+                element={<Navigate to="/notfound" replace />}
+            />
+        </Routes>
     );
 };
 
