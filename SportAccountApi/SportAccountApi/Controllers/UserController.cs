@@ -68,12 +68,12 @@ namespace SportAccountApi.Controllers
 
 
         [HttpGet("coach/{coachId}")]
-        public async Task<ActionResult<User>> GetAllCoachAsync(int coachId)
+        public async Task<ActionResult<User>> GetCoachByIdAsync(int coachId)
         {
             try
             {
                 User coach = await userDAO.ByIdAsync(coachId);
-                if(coach == null || coach.Role.Name != "Coach")
+                if(coach == null || coach.Role.Name != "Coach") 
                       return NotFound("Page not found");
                 
                 return Ok(coach);

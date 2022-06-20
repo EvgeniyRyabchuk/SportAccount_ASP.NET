@@ -55,6 +55,7 @@ namespace SportAccountApi.DAL
                 .FirstAsync();  
         }
 
+
         public async Task<ICollection<User>> ByGroupIdAsync(int groupId)
         {
             ICollection<User> users = await db.Groups

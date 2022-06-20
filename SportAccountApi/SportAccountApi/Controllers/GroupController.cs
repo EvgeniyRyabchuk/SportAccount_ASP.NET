@@ -44,11 +44,12 @@ namespace SportAccountApi.Controllers
         public async Task<ActionResult<Group>> ShowAsync(int groupId)
         {
             Group group = await groupDAO.FindByIdAsync(groupId);
+            ICollection<User> users = await userDAO.ByGroupIdAsync(groupId);
             int count = 0; 
             if (group.Users != null)
                 count = group.Users.Count; 
 
-            return Ok(new { group, count }); 
+            return Ok(new { group, count, users }); 
         }
 
 

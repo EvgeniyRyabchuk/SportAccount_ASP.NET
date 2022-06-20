@@ -52,14 +52,14 @@ namespace SportAccountApi.Controllers
                 User user = await _SL.GetCurrentUser(userDAO, httpContextAccessor);
                 if (user == null)
                     return BadRequest(); 
-                return Ok(user);
+                return Ok(user); 
             } 
-            catch(Exception ex)
+            catch(Exception ex) 
             {
-                return BadRequest(ex.Message);
+                return BadRequest(ex.Message); 
             }
-       
         }
+        
 
         [HttpPost("register")]
         public async Task<ActionResult<User>> Registrate(CreateUserDTO request)
@@ -95,14 +95,14 @@ namespace SportAccountApi.Controllers
         {
             User user = await userDAO.ByLoginAsync(request.login);
             if (user == null)
-                return BadRequest("User not exist");
+                return BadRequest("User not exist"); 
 
             if (!_SL.VerifyPasswordHash(request.password, user.PasswordHash, user.PasswordSalt))
             {
                 return BadRequest("Wrong password.");
             }
 
-
+            
             string token = CreateToken(user);
 
             var refreshToken = GenerateRefreshToken();
@@ -131,14 +131,14 @@ namespace SportAccountApi.Controllers
             return list;
         }
 
-        [HttpPost("refresh-token")]
+        [HttpPost("refresh-token")] 
         public async Task<ActionResult<string>> RefreshToken() 
         {
             var refreshToken = Request.Cookies["refreshToken"];
-
+            
             if(refreshToken == null)
             {
-                return Unauthorized("No Refresh Token.");
+                return Unauthorized("No Refresh Token."); 
             }
             // get refresh token from db 
             _RefreshToken rf = await refreshTokenDAO.FindByTokenAsync(refreshToken);
@@ -191,7 +191,7 @@ namespace SportAccountApi.Controllers
             #endregion
         }
 
-        private RefreshToken GenerateRefreshToken()
+        private RefreshToken GenerateRefreshToken() 
         {
             byte[] random = new Byte[64];
             //RNGCryptoServiceProvider is an implementation of a random number generator.
@@ -201,7 +201,7 @@ namespace SportAccountApi.Controllers
             var refreshToken = new RefreshToken
             {
                 Token = Convert.ToBase64String(random), 
-                Expires = DateTime.Now.AddMinutes(60),
+                Expires = DateTime.Now.AddDays(60),
                 Created = DateTime.Now
             };
 

@@ -50,15 +50,24 @@ namespace SportAccountApi.Controllers
 
         // get all workdays by coach 
         [HttpGet("coach/{coachId}/workday")]
-        public async Task<ActionResult<ScheduleWorkday>> AllDaysByCoachAsync(int coachId)
+        public async Task<ActionResult<ScheduleWorkday>> AllWorkDaysByCoachAsync(int coachId)
         {
             User coach = await userDAO.FindByIdAsync(coachId);
             ICollection<ScheduleWorkday> list = await workdayDAO.GetAllByUserIdAsync(coach.Id);
             return Ok(list);
         }
 
+        // get workday by workday 
+        [HttpGet("coach/{coachId}/workday/{workdayId}")] 
+        public async Task<IActionResult> GetWorkDayByIdAsync(int coachId, int workdayId)
+        {
+            User coach = await userDAO.FindByIdAsync(coachId);
+            ScheduleWorkday workday = await workdayDAO.FindByIdAsync(workdayId);
+            return Ok(workday); 
+        }
+
         // get all workouts by workday 
-        [HttpGet("coach/{coachId}/workday/{workdayId}")]
+        [HttpGet("coach/{coachId}/workday/{workdayId}/workout")]
         public async Task<IActionResult> AllWorkoutsByDayAsync(int coachId, int workdayId)
         {
             User coach = await userDAO.FindByIdAsync(coachId);
@@ -67,7 +76,7 @@ namespace SportAccountApi.Controllers
             return Ok(list);
         }
 
-
+        
         [HttpPost("coach/{coachId}/workday")] 
         public async Task<ActionResult<ScheduleWorkday>>
             AddWorkDayToCoachAsync(CreateWorkdayDTO createWorkdayDTO, int coachId)

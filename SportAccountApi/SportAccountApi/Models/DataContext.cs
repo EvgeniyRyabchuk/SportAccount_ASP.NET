@@ -86,6 +86,7 @@ namespace SportAccountApi.Models
             //    .WithMany(p => p.Users)
             //    .UsingEntity(j => j.ToTable("GroupUser"));
 
+            
 
             string pwd = "123456789";
             SL._SL.CreatePasswordHash(pwd, out byte[] hashPwd, out byte[] hashSalt);
@@ -145,7 +146,7 @@ namespace SportAccountApi.Models
                 new ScheduleWorkday()
                 {
                     Id = 1,
-                    Date = new DateTime(2022, 6, 18),
+                    Date = new DateTime(2022, 6, 18), 
                     CoachId = 1,
                     StartTime = new DateTime(2022, 6, 18, 9, 0, 0),
                     EndTime = new DateTime(2022, 6, 18, 18, 0, 0),
@@ -167,6 +168,18 @@ namespace SportAccountApi.Models
               }
           );
 
+            modelBuilder.Entity<ScheduleWorkout>().HasData(
+            new ScheduleWorkout()
+            {
+                Id = 2,
+                SheduleWorkdayId = 1,
+                RoomId = 1,
+                ClientId = 1,
+                WorkoutTypeId = 2,
+                start = new DateTime(2022, 6, 18, 12, 0, 0),
+                end = new DateTime(2022, 6, 18, 15, 0, 0),
+            }
+        );
 
         }
     }
