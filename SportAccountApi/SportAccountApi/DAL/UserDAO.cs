@@ -28,7 +28,7 @@ namespace SportAccountApi.DAL
                 registeredUser = await db.Users.Where(u => u.Login == loginName)
                     .Include(u => u.Role)
                     .Include(u => u.Specialization)
-                    //.Include(u => u.StatusId)
+                    .Include(u => u.Status)
                     .Include(u => u.Sex)
                     .Include(u => u.Role)
                     .Include(u => u.Phones)
@@ -47,7 +47,7 @@ namespace SportAccountApi.DAL
             return await db.Users.Where(u => u.Id == id)
                 .Include(u => u.Role)
                 .Include(u => u.Specialization)
-                //.Include(u => u.StatusId)
+                .Include(u => u.Status)
                 .Include(u => u.Sex)
                 .Include(u => u.Role)
                 .Include(u => u.Phones)
@@ -63,6 +63,7 @@ namespace SportAccountApi.DAL
                 .SelectMany(u => u.Users)
                 .Include(u => u.Sex)
                 .Include(u => u.Phones)
+                .Include(u => u.Status)
                 .Include(u => u.Specialization)
                 .Include(u => u.Role)
                 .ToListAsync();
@@ -75,7 +76,7 @@ namespace SportAccountApi.DAL
             return await db.Users
                 .Include(u => u.Role)
                 .Include(u => u.Specialization)
-                //.Include(u => u.StatusId)
+                .Include(u => u.Status)
                 .Include(u => u.Sex)
                 .Include(u => u.Role)
                 .Include(u => u.Phones)
@@ -103,9 +104,9 @@ namespace SportAccountApi.DAL
                 .Where(u => u.RoleId == roleId) 
                 .Include(u => u.Role) 
                 .Include(u => u.Specialization)
-                //.Include(u => u.StatusId)
+                .Include(u => u.Status)
                 .Include(u => u.Sex) 
-                .Include(u => u.Role)
+                .Include(u => u.Role) 
                 .Include(u => u.Phones)
                 .Include(u => u.Groups)
                 .ToListAsync();
@@ -116,7 +117,7 @@ namespace SportAccountApi.DAL
             User user = await db.Users
                 .Include(u => u.Role)
                 .Include(u => u.Specialization)
-                //.Include(u => u.StatusId)
+                .Include(u => u.Status)
                 .Include(u => u.Sex)
                 .Include(u => u.Role)
                 .Include(u => u.Phones)
@@ -149,7 +150,6 @@ namespace SportAccountApi.DAL
             return await db.Users.ToListAsync();
         }
 
-
         public async Task<ICollection<User>> UpdateAsync(User request)
         {
             var user = await db.Users.FindAsync(request.Id); 
@@ -164,7 +164,6 @@ namespace SportAccountApi.DAL
             await db.SaveChangesAsync();
             return await db.Users.ToListAsync();
         }
-        
 
         public async Task<ICollection<User>> DeleteAsync(int id)
         {

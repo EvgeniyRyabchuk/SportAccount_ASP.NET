@@ -4,7 +4,7 @@ import AppRouter from "./components/AppRouter";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import User from "./models/User";
-import React from "react";
+import React, {useState} from "react";
 import UserContext from "./context/UserContext";
 import {BrowserRouter} from "react-router-dom";
 
@@ -12,12 +12,21 @@ import {BrowserRouter} from "react-router-dom";
 
 function App() {
 
+    const [user, setUser] = useState({
+        id: null,
+        first_name: null,
+        last_name: null,
+        middle_name: null,
 
+        login: null,
+        birthDate: null,
+        isLoggenIn: false
+    });
 
 
   return (
       <BrowserRouter>
-          <UserContext.Provider value={User}>
+          <UserContext.Provider value={{user, setUser}}>
               <div className="App" style={{padding: '10px'}}>
                   <Header />
                   <main style={{minHeight: '90vh', marginTop: '10px'}}>

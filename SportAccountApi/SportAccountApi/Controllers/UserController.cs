@@ -36,7 +36,7 @@ namespace SportAccountApi.Controllers
             this.httpContextAccessor = httpContextAccessor; 
         }
 
-        [HttpGet, Authorize]
+        [HttpGet]
         public async Task<ActionResult<User>> Index()
         {
             try
@@ -44,7 +44,7 @@ namespace SportAccountApi.Controllers
                 return Ok(await userDAO.GetAllAsync()); 
             }
             catch(Exception ex)
-            {
+            { 
                 return BadRequest(ex.Message); 
             }
      
@@ -55,7 +55,7 @@ namespace SportAccountApi.Controllers
         {
             try
             {
-                Role role = await roleDAO.FindByNameAsync("Coach");
+                Role role = await roleDAO.FindByNameAsync("Coach"); 
                 var list = await userDAO.GetAllByRoleIdAsync(role.Id); 
                 return Ok(list); 
             }

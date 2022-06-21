@@ -34,10 +34,11 @@ namespace SportAccountApi.Models
         public int? SpecializationId { get; set; }
         public Specialization Specialization { set; get; }
 
-        //[JsonIgnore]
-        public int? StatusId { get; set; } 
-        //TODO: cascade error 
-        ////public Status status { get; set; } 
+
+        [JsonIgnore]
+        public int? StatusId { get; set; }
+        public Status Status { get; set; } 
+
 
         [JsonIgnore]
         public int SexId { get; set; } 

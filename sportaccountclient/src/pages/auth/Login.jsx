@@ -7,35 +7,40 @@ import UserService from "../../service/UserService";
 
 const Login = () => {
     const navigate = useNavigate();
-    const user = useContext(UserContext);
+    const {user, setUser} = useContext(UserContext);
 
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
 
+    const getCurUser = async () => {
+        const res = await AuthService.current();
+        const data = res.data;
+        const newUser = {};
+        newUser.id = data.id;
+        newUser.firstName = data.firstName;
+        newUser.lastName = data.lastName;
+        newUser.middleName = data.middleName;
+
+        setUser({...newUser, isLoggenIn: true});
+        return newUser
+    }
+
     const submit = async () => {
+        console.log('asd')
         const payload = {
             "login": email,
             "password": password,
         }
         try {
             const result = await AuthService.login(payload);
-
             const data = result.data;
-
             console.log(data);
 
-            user.id = data.id;
-            user.firstName = data.firstName;
-            user.lastName = data.lastName;
-            user.middleName = data.middleName;
-            user.isLoggenIn = true;
-
             localStorage.setItem('token', data.accessToken);
+            const newUser = await getCurUser();
 
-            // navigate(`/profile/${user.id}`);
+            navigate(`/profile/${newUser.id}`);
 
-            const result2 = await UserService.Index();
-            console.log(result2.data);
         }
         catch (ex) {
             console.error(ex)

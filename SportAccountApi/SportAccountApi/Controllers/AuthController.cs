@@ -13,6 +13,7 @@ using SportAccountApi.SL;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
@@ -28,16 +29,19 @@ namespace SportAccountApi.Controllers
         private readonly RefreshTokenDAO refreshTokenDAO;
 
         private readonly IConfiguration _confiuration;
-        private readonly IHttpContextAccessor httpContextAccessor; 
-        //public static User user = new User();
-        //private UserManager<User> _userManager;
-
-        public AuthController(DataContext dataContext, IConfiguration configuration, IHttpContextAccessor httpContextAccessor)
+        private readonly IHttpContextAccessor httpContextAccessor;
+        //private UserManager<IdentityUser> _userManager;
+        
+        public AuthController(
+            DataContext dataContext,
+            IConfiguration configuration, 
+            IHttpContextAccessor httpContextAccessor
+            )
         {
             userDAO = new UserDAO(dataContext);
             roleDAO = new RoleDAO(dataContext);
             _confiuration = configuration;
-            refreshTokenDAO = new RefreshTokenDAO(dataContext); 
+            refreshTokenDAO = new RefreshTokenDAO(dataContext);
             //_userManager = userManager;
 
             this.httpContextAccessor = httpContextAccessor; 
@@ -50,6 +54,7 @@ namespace SportAccountApi.Controllers
             try
             {
                 User user = await _SL.GetCurrentUser(userDAO, httpContextAccessor);
+                
                 if (user == null)
                     return BadRequest(); 
                 return Ok(user); 
@@ -60,7 +65,6 @@ namespace SportAccountApi.Controllers
             }
         }
         
-
         [HttpPost("register")]
         public async Task<ActionResult<User>> Registrate(CreateUserDTO request)
         {
@@ -124,9 +128,9 @@ namespace SportAccountApi.Controllers
         private async Task<ICollection<_RefreshToken>> UpdateRefreshTokenToDbAsync(RefreshToken newToken, string oldToken)
         {
             _RefreshToken rf = await refreshTokenDAO.FindByTokenAsync(oldToken);
-            rf.Updated_At = DateTime.Now;
+            rf.Updated_At = DateTime.Now; 
             rf.RefreshToken = newToken.Token; 
-
+            
             var list = await refreshTokenDAO.UpdateAsync(rf);
             return list;
         }
@@ -142,17 +146,19 @@ namespace SportAccountApi.Controllers
             }
             // get refresh token from db 
             _RefreshToken rf = await refreshTokenDAO.FindByTokenAsync(refreshToken);
-            //get current user 
-            User user = await userDAO.FindByIdAsync(rf.UserId);
 
+            if (rf == null) return BadRequest("Token does not exist");
+                
             if (!rf.RefreshToken.Equals(refreshToken))
             {
-                return Unauthorized("Invalid Refresh Token."); 
+                return Unauthorized("Invalid Refresh Token.");  
             }
             else if (rf.Expired_At < DateTime.Now)
             {
                 return Unauthorized("Token expired."); 
             }
+            //get current user 
+            User user = await userDAO.FindByIdAsync(rf.UserId);
 
             string accessToken = CreateToken(user);
             var newRefreshToken = GenerateRefreshToken(); 
@@ -168,10 +174,19 @@ namespace SportAccountApi.Controllers
         {
             var refreshToken = Request.Cookies["refreshToken"];
             
-            await refreshTokenDAO.DeleteByTokenAsync(refreshToken); 
+            await refreshTokenDAO.DeleteByTokenAsync(refreshToken);
 
-            Response.Cookies.Delete("refreshToken");
-            
+            Response.Cookies.Append("refreshToken", "", new CookieOptions()
+            {
+                HttpOnly = true,
+                Expires = DateTime.Now.AddDays(-1),
+                SameSite = SameSiteMode.None,
+                Secure = true
+
+            }); 
+
+            //Response.Cookies.Delete("refreshToken");
+
             return Ok("user is logged out");
             #region currentUSer 
             /* 
@@ -237,7 +252,7 @@ namespace SportAccountApi.Controllers
             
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
 
-            DateTime exp = DateTime.Now.AddSeconds(60); 
+            DateTime exp = DateTime.Now.AddSeconds(300); 
 
             var token = new JwtSecurityToken( 
                 claims: claims,
@@ -251,3 +266,4 @@ namespace SportAccountApi.Controllers
 
     }
 }
+

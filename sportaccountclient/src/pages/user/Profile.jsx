@@ -3,6 +3,7 @@ import {useParams} from "react-router-dom";
 import GroupService from "../../service/GroupService";
 import UserService from "../../service/UserService";
 import getAge from "../../helpers/date";
+import UserFullName from "../../components/UserFullName";
 
 const Profile = () => {
     const { userId } = useParams();
@@ -29,9 +30,7 @@ const Profile = () => {
                 user ?
                     <div>
                         <h2> {
-                            `${user.firstName} 
-                            ${user.lastName}
-                            ${user.middleName}`
+                         <UserFullName data={user}/>
                         }
                         </h2>
                         <p>

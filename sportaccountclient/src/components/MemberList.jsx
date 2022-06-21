@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Link, useParams} from "react-router-dom";
 import CoachService from "../service/CoachService";
 import GroupService from "../service/GroupService";
+import UserFullName from "./UserFullName";
 
 const MemberList = () => {
     const { groupId } = useParams();
@@ -27,7 +28,7 @@ const MemberList = () => {
                     group ? group.users.map(e =>
                         <li>
                             <Link to={`/profile/${e.id}`}>
-                                {`${e.firstName}  ${e.lastName} ${e.middleName}`}
+                                <UserFullName data={e}/>
                             </Link>
 
                         </li>

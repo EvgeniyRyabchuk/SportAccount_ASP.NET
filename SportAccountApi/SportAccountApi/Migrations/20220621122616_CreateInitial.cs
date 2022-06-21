@@ -147,6 +147,12 @@ namespace SportAccountApi.Migrations
                         principalTable: "Specializations",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Users_Statuses_StatusId",
+                        column: x => x.StatusId,
+                        principalTable: "Statuses",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -357,9 +363,30 @@ namespace SportAccountApi.Migrations
                 columns: new[] { "Id", "BirthDate", "FirstName", "LastName", "Login", "MiddleName", "PasswordHash", "PasswordSalt", "RoleId", "SexId", "SpecializationId", "StatusId" },
                 values: new object[,]
                 {
-                    { 2, new DateTime(2001, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), "Rose", "RN", "12345", "RM", new byte[] { 13, 23, 30, 231, 154, 84, 66, 164, 65, 34, 17, 17, 53, 241, 22, 243, 147, 121, 101, 186, 199, 125, 254, 113, 118, 152, 62, 13, 91, 203, 212, 220, 62, 72, 224, 1, 24, 73, 214, 138, 93, 114, 193, 96, 32, 180, 140, 14, 50, 12, 0, 186, 243, 220, 36, 161, 219, 64, 115, 223, 20, 131, 208, 205 }, new byte[] { 67, 53, 232, 83, 161, 167, 87, 194, 222, 8, 145, 204, 40, 232, 14, 105, 40, 167, 179, 8, 3, 225, 105, 229, 68, 201, 240, 178, 101, 24, 235, 94, 37, 63, 113, 53, 143, 39, 109, 241, 151, 56, 102, 25, 191, 144, 82, 129, 198, 54, 166, 161, 197, 252, 131, 238, 28, 202, 78, 248, 248, 122, 171, 31, 27, 80, 164, 141, 71, 212, 127, 232, 201, 93, 117, 42, 114, 236, 206, 24, 169, 241, 110, 157, 180, 6, 14, 202, 93, 110, 28, 151, 55, 250, 2, 67, 29, 164, 212, 156, 252, 49, 70, 136, 207, 140, 65, 68, 151, 62, 110, 197, 98, 86, 191, 192, 208, 160, 39, 174, 60, 240, 193, 68, 229, 101, 52, 207 }, 1, 2, null, null },
-                    { 1, new DateTime(2001, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), "Jeka", "LN", "12345", "MN", new byte[] { 13, 23, 30, 231, 154, 84, 66, 164, 65, 34, 17, 17, 53, 241, 22, 243, 147, 121, 101, 186, 199, 125, 254, 113, 118, 152, 62, 13, 91, 203, 212, 220, 62, 72, 224, 1, 24, 73, 214, 138, 93, 114, 193, 96, 32, 180, 140, 14, 50, 12, 0, 186, 243, 220, 36, 161, 219, 64, 115, 223, 20, 131, 208, 205 }, new byte[] { 67, 53, 232, 83, 161, 167, 87, 194, 222, 8, 145, 204, 40, 232, 14, 105, 40, 167, 179, 8, 3, 225, 105, 229, 68, 201, 240, 178, 101, 24, 235, 94, 37, 63, 113, 53, 143, 39, 109, 241, 151, 56, 102, 25, 191, 144, 82, 129, 198, 54, 166, 161, 197, 252, 131, 238, 28, 202, 78, 248, 248, 122, 171, 31, 27, 80, 164, 141, 71, 212, 127, 232, 201, 93, 117, 42, 114, 236, 206, 24, 169, 241, 110, 157, 180, 6, 14, 202, 93, 110, 28, 151, 55, 250, 2, 67, 29, 164, 212, 156, 252, 49, 70, 136, 207, 140, 65, 68, 151, 62, 110, 197, 98, 86, 191, 192, 208, 160, 39, 174, 60, 240, 193, 68, 229, 101, 52, 207 }, 2, 1, 1, 1 }
+                    { 3, new DateTime(1995, 6, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), "Mike", "Clark", "123456", null, new byte[] { 119, 218, 16, 225, 86, 249, 133, 198, 123, 224, 45, 147, 254, 111, 166, 114, 1, 104, 230, 108, 219, 223, 145, 66, 40, 203, 169, 238, 39, 102, 221, 205, 12, 231, 254, 124, 198, 80, 61, 190, 183, 179, 161, 45, 230, 89, 82, 38, 20, 17, 221, 221, 78, 134, 140, 13, 242, 60, 169, 24, 91, 245, 170, 176 }, new byte[] { 134, 155, 239, 130, 176, 140, 168, 54, 142, 10, 13, 59, 49, 43, 45, 216, 168, 129, 53, 5, 5, 117, 232, 167, 201, 90, 63, 49, 98, 150, 181, 209, 145, 83, 50, 240, 163, 37, 215, 229, 193, 243, 81, 50, 132, 3, 10, 154, 156, 122, 215, 74, 140, 199, 56, 1, 83, 217, 209, 50, 13, 25, 94, 158, 253, 179, 122, 95, 223, 150, 216, 88, 243, 24, 112, 224, 83, 2, 211, 10, 11, 209, 185, 70, 7, 214, 156, 38, 33, 53, 71, 237, 245, 38, 120, 109, 77, 133, 159, 61, 88, 191, 11, 19, 172, 22, 204, 33, 17, 127, 86, 123, 66, 27, 159, 135, 144, 131, 192, 153, 199, 198, 250, 67, 33, 211, 192, 63 }, 1, 1, null, null },
+                    { 4, new DateTime(1980, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "John", "Cook", "111", null, new byte[] { 119, 218, 16, 225, 86, 249, 133, 198, 123, 224, 45, 147, 254, 111, 166, 114, 1, 104, 230, 108, 219, 223, 145, 66, 40, 203, 169, 238, 39, 102, 221, 205, 12, 231, 254, 124, 198, 80, 61, 190, 183, 179, 161, 45, 230, 89, 82, 38, 20, 17, 221, 221, 78, 134, 140, 13, 242, 60, 169, 24, 91, 245, 170, 176 }, new byte[] { 134, 155, 239, 130, 176, 140, 168, 54, 142, 10, 13, 59, 49, 43, 45, 216, 168, 129, 53, 5, 5, 117, 232, 167, 201, 90, 63, 49, 98, 150, 181, 209, 145, 83, 50, 240, 163, 37, 215, 229, 193, 243, 81, 50, 132, 3, 10, 154, 156, 122, 215, 74, 140, 199, 56, 1, 83, 217, 209, 50, 13, 25, 94, 158, 253, 179, 122, 95, 223, 150, 216, 88, 243, 24, 112, 224, 83, 2, 211, 10, 11, 209, 185, 70, 7, 214, 156, 38, 33, 53, 71, 237, 245, 38, 120, 109, 77, 133, 159, 61, 88, 191, 11, 19, 172, 22, 204, 33, 17, 127, 86, 123, 66, 27, 159, 135, 144, 131, 192, 153, 199, 198, 250, 67, 33, 211, 192, 63 }, 3, 1, null, null },
+                    { 2, new DateTime(2001, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), "Rose", "Menders", "12345", null, new byte[] { 119, 218, 16, 225, 86, 249, 133, 198, 123, 224, 45, 147, 254, 111, 166, 114, 1, 104, 230, 108, 219, 223, 145, 66, 40, 203, 169, 238, 39, 102, 221, 205, 12, 231, 254, 124, 198, 80, 61, 190, 183, 179, 161, 45, 230, 89, 82, 38, 20, 17, 221, 221, 78, 134, 140, 13, 242, 60, 169, 24, 91, 245, 170, 176 }, new byte[] { 134, 155, 239, 130, 176, 140, 168, 54, 142, 10, 13, 59, 49, 43, 45, 216, 168, 129, 53, 5, 5, 117, 232, 167, 201, 90, 63, 49, 98, 150, 181, 209, 145, 83, 50, 240, 163, 37, 215, 229, 193, 243, 81, 50, 132, 3, 10, 154, 156, 122, 215, 74, 140, 199, 56, 1, 83, 217, 209, 50, 13, 25, 94, 158, 253, 179, 122, 95, 223, 150, 216, 88, 243, 24, 112, 224, 83, 2, 211, 10, 11, 209, 185, 70, 7, 214, 156, 38, 33, 53, 71, 237, 245, 38, 120, 109, 77, 133, 159, 61, 88, 191, 11, 19, 172, 22, 204, 33, 17, 127, 86, 123, 66, 27, 159, 135, 144, 131, 192, 153, 199, 198, 250, 67, 33, 211, 192, 63 }, 1, 2, null, null }
                 });
+
+            migrationBuilder.InsertData(
+                table: "GroupUser",
+                columns: new[] { "GroupsId", "UsersId" },
+                values: new object[] { 1, 3 });
+
+            migrationBuilder.InsertData(
+                table: "GroupUser",
+                columns: new[] { "GroupsId", "UsersId" },
+                values: new object[] { 1, 2 });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Id", "BirthDate", "FirstName", "LastName", "Login", "MiddleName", "PasswordHash", "PasswordSalt", "RoleId", "SexId", "SpecializationId", "StatusId" },
+                values: new object[] { 1, new DateTime(2001, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), "Jeka", "LN", "1", "MN", new byte[] { 119, 218, 16, 225, 86, 249, 133, 198, 123, 224, 45, 147, 254, 111, 166, 114, 1, 104, 230, 108, 219, 223, 145, 66, 40, 203, 169, 238, 39, 102, 221, 205, 12, 231, 254, 124, 198, 80, 61, 190, 183, 179, 161, 45, 230, 89, 82, 38, 20, 17, 221, 221, 78, 134, 140, 13, 242, 60, 169, 24, 91, 245, 170, 176 }, new byte[] { 134, 155, 239, 130, 176, 140, 168, 54, 142, 10, 13, 59, 49, 43, 45, 216, 168, 129, 53, 5, 5, 117, 232, 167, 201, 90, 63, 49, 98, 150, 181, 209, 145, 83, 50, 240, 163, 37, 215, 229, 193, 243, 81, 50, 132, 3, 10, 154, 156, 122, 215, 74, 140, 199, 56, 1, 83, 217, 209, 50, 13, 25, 94, 158, 253, 179, 122, 95, 223, 150, 216, 88, 243, 24, 112, 224, 83, 2, 211, 10, 11, 209, 185, 70, 7, 214, 156, 38, 33, 53, 71, 237, 245, 38, 120, 109, 77, 133, 159, 61, 88, 191, 11, 19, 172, 22, 204, 33, 17, 127, 86, 123, 66, 27, 159, 135, 144, 131, 192, 153, 199, 198, 250, 67, 33, 211, 192, 63 }, 2, 1, 1, 1 });
+
+            migrationBuilder.InsertData(
+                table: "GroupUser",
+                columns: new[] { "GroupsId", "UsersId" },
+                values: new object[] { 2, 1 });
 
             migrationBuilder.InsertData(
                 table: "Phones",
@@ -380,6 +407,11 @@ namespace SportAccountApi.Migrations
                 table: "ScheduleWorkouts",
                 columns: new[] { "Id", "ClientId", "GroupId", "RoomId", "SheduleWorkdayId", "WorkoutTypeId", "end", "start" },
                 values: new object[] { 1, null, 1, 1, 1, 1, new DateTime(2022, 6, 18, 12, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2022, 6, 18, 9, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.InsertData(
+                table: "ScheduleWorkouts",
+                columns: new[] { "Id", "ClientId", "GroupId", "RoomId", "SheduleWorkdayId", "WorkoutTypeId", "end", "start" },
+                values: new object[] { 2, 1, null, 1, 1, 2, new DateTime(2022, 6, 18, 15, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2022, 6, 18, 12, 0, 0, 0, DateTimeKind.Unspecified) });
 
             migrationBuilder.CreateIndex(
                 name: "IX_GroupUser_UsersId",
@@ -445,6 +477,11 @@ namespace SportAccountApi.Migrations
                 name: "IX_Users_SpecializationId",
                 table: "Users",
                 column: "SpecializationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_StatusId",
+                table: "Users",
+                column: "StatusId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -462,9 +499,6 @@ namespace SportAccountApi.Migrations
                 name: "ScheduleWorkouts");
 
             migrationBuilder.DropTable(
-                name: "Statuses");
-
-            migrationBuilder.DropTable(
                 name: "Groups");
 
             migrationBuilder.DropTable(
@@ -480,13 +514,16 @@ namespace SportAccountApi.Migrations
                 name: "Users");
 
             migrationBuilder.DropTable(
-                name: "Roles");
-
-            migrationBuilder.DropTable(
                 name: "Sexs");
 
             migrationBuilder.DropTable(
                 name: "Specializations");
+
+            migrationBuilder.DropTable(
+                name: "Statuses");
+
+            migrationBuilder.DropTable(
+                name: "Roles");
         }
     }
 }

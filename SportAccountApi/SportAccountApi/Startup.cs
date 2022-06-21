@@ -1,24 +1,16 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using SportAccountApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace SportAccountApi
 {
@@ -41,7 +33,6 @@ namespace SportAccountApi
                     )
 
                 ); // добавляем сервисы CORS
-
 
             services.AddControllers();
             services.AddDbContext<DataContext>(options => options.UseSqlServer(connection)); 
@@ -80,13 +71,21 @@ namespace SportAccountApi
              });
 
             services.AddHttpContextAccessor();
+            
+            #region user manager 
+            //services.AddIdentity<IdentityUser, IdentityRole>(options =>
+            //{
+            //    options.User.RequireUniqueEmail = false;
+            //})
+            //.AddEntityFrameworkStores<DataContext>()
+            //.AddDefaultTokenProviders();
 
             //services.AddIdentity<IdentityUser, IdentityRole>()
-            //                .AddEntityFrameworkStores<DataContext>() 
+            //                .AddEntityFrameworkStores<DataContext>()
             //                .AddDefaultTokenProviders();
 
-
-
+            //services.AddDefaultIdentity<IdentityUser>().AddUserStore<DataContext>();
+            #endregion
 
         }
 
@@ -99,8 +98,6 @@ namespace SportAccountApi
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "SportAccountApi v1"));
             }
-
- 
 
             app.UseHttpsRedirection();
 

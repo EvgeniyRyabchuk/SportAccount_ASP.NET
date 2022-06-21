@@ -7,20 +7,23 @@ import AuthService from "../service/AuthService";
 const Header = () => {
     const navigate = useNavigate();
     const [activeKey, setActiveKey] = useState(0);
-    const user = useContext(UserContext);
+    const {user, setUser} = useContext(UserContext);
     const [isLoggedIn, setISLoggedIn] = useState(false);
     const { pathname } = useLocation();
+
+    console.log(123)
 
     const getCurUser = async () => {
         const res = await AuthService.current();
         const data = res.data;
-
+        const user = {};
         user.id = data.id;
         user.firstName = data.firstName;
         user.lastName = data.lastName;
         user.middleName = data.middleName;
         user.isLoggenIn = true;
-        setISLoggedIn(true);
+        setUser(user);
+
     }
 
 
@@ -41,10 +44,12 @@ const Header = () => {
 
     }, [])
 
-    const handleSelect = (eventKey) => {
+    console.log(user);
+
+    const handleSelect = async (eventKey) => {
         switch (eventKey) {
             case '4.1':
-                navigate('/profile');
+                navigate(`/profile/${user.id}`);
             break;
             case '4.2':
                 navigate('/profile');
@@ -53,7 +58,15 @@ const Header = () => {
                 navigate('/profile');
             break;
             case '4.4':
-                navigate('/profile');
+                if(user.isLoggenIn) {
+                    const res = await AuthService.logout();
+                    user.isLoggenIn = false;
+                    // console.log(res);
+                    setUser({...user})
+                    localStorage.removeItem('token');
+                    navigate(`/`);
+                }
+
             break;
             case '1':
                 setActiveKey(1);
@@ -101,7 +114,7 @@ const Header = () => {
                 </Nav.Item>
 
                 <div style={{display: 'flex',}} className={'flex-grow-1 justify-content-end'}>
-                    { isLoggedIn ?
+                    { user.isLoggenIn ?
                         <NavDropdown title={user.firstName + ' ' + user.lastName} id="nav-dropdown">
                             <NavDropdown.Item eventKey="4.1">
                                 Profile
@@ -109,7 +122,7 @@ const Header = () => {
                             <NavDropdown.Item eventKey="4.2">Another action</NavDropdown.Item>
                             <NavDropdown.Item eventKey="4.3">Something else here</NavDropdown.Item>
                             <NavDropdown.Divider />
-                            {/* //TODO: log out  */}
+
                             <NavDropdown.Item eventKey="4.4">Log out</NavDropdown.Item>
                         </NavDropdown> :
 

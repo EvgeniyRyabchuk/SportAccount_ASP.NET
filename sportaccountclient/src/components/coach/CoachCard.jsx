@@ -1,14 +1,13 @@
 import React from 'react';
 import getAge from "../../helpers/date";
+import UserFullName from "../UserFullName";
 
 const CoachCard = ({coach}) => {
     return (
         <div  className='mt-5 shadow-box'>
             <h3>
-                Full Name:
-                {` ${coach.firstName} 
-                        ${coach.lastName} 
-                        ${coach.middleName}`}
+                Full Name: <UserFullName data={coach}/>
+
             </h3>
             <p>
                 Sex: {coach.sex.name}

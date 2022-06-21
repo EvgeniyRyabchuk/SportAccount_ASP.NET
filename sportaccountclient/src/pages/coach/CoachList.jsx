@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import CoachService from "../../service/CoachService";
+import UserFullName from "../../components/UserFullName";
 
 
 const CoachList = () => {
@@ -28,7 +29,9 @@ const CoachList = () => {
 
                         <div>
                             <span className='field-title'>Full Cach Name: </span>
-                            <span className='field-value'> {`${e.firstName}  ${e.lastName} ${e.middleName}`}</span>
+                            <span className='field-value'>
+                                <UserFullName data={e}/>
+                            </span>
                         </div>
 
                         <div>

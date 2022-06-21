@@ -1,11 +1,11 @@
-PH
+PowerShell
 dotnet tool install --local dotnet-ef --version 5.0.17
 
-PM 
-cd C:\Users\jekar\Desktop\SportAccount_ASP.NET\SportAccountApi\SportAccountApi
-dotnet ef migrations Add CreateInitial
-dotnet ef database update
-dotnet ef migrations remove
+Packege Manager Console  
+1) input cd command something like that - cd C:\Users\jekar\Desktop\SportAccount_ASP.NET\SportAccountApi\SportAccountApi 
+2) dotnet ef migrations Add CreateInitial
+3) dotnet ef database update
+4) dotnet ef migrations remove
 
 
 

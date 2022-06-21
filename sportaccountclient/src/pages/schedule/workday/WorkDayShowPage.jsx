@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import {useParams} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 import CoachService from "../../../service/CoachService";
 import ScheduleService from "../../../service/ScheduleService";
 import {dateOnly, dateWordFormat, timeOnly} from "../../../helpers/date";
+import UserFullName from "../../../components/UserFullName";
 
 const WorkDayShowPage = () => {
 
@@ -74,9 +75,9 @@ const WorkDayShowPage = () => {
                                 <div >
                                     <span className='field-title'> For Client Full Name: </span>
                                     <span className='field-value'>
-                                        {`${e.client.firstName} 
-                                        ${e.client.lastName} 
-                                        ${e.client.middleName}`}
+                                        <Link to={`/profile/${e.client.id}`}>
+                                            <UserFullName data={e.client}/>
+                                        </Link>
                                     </span>
                                 </div>
                             :

@@ -45,9 +45,17 @@ namespace SportAccountApi.DAL
 
         public async Task<_RefreshToken> FindByTokenAsync(string token)
         {
-            return await db.RefreshTokens
-                .Where(rt => rt.RefreshToken == token)
-                .FirstAsync();
+            try
+            {
+                return await db.RefreshTokens
+                   .Where(rt => rt.RefreshToken == token)
+                   .FirstAsync();
+            }
+            catch(Exception ex)
+            {
+                return null; 
+            }
+           
         }
 
         public Task<_RefreshToken> FindByIdAsync(int id)
@@ -67,7 +75,7 @@ namespace SportAccountApi.DAL
             if (origin == null)
                 throw new System.Exception("refresh token does not exist"); 
 
-            origin.RefreshToken = model.RefreshToken;
+            origin.RefreshToken = model.RefreshToken; 
             origin.Expired_At = model.Expired_At; 
 
             await db.SaveChangesAsync(); 
