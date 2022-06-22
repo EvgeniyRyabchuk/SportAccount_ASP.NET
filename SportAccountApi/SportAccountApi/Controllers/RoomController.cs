@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SportAccountApi.DAL;
 using SportAccountApi.DTO.Group;
+using SportAccountApi.DTO.Room;
 using SportAccountApi.Mapper;
 using SportAccountApi.Models;
 using System;
@@ -23,11 +24,11 @@ namespace SportAccountApi.Controllers
         {
             roomDAO = new RoomDAO(dataContext);
         }
-
-        [HttpGet, Authorize] 
+        
+        [HttpGet] 
         public async Task<ActionResult<ICollection<Room>>> IndexAsync()
         {
-            var list = await roomDAO.GetAllAsync();  
+            var list = await roomDAO.GetAllAsync();   
             return Ok(list);  
         }
 
@@ -39,5 +40,19 @@ namespace SportAccountApi.Controllers
         }
 
 
+        [HttpPost]
+        public async Task<ActionResult<ICollection<Room>>> StoreAsync(CreateRoomDTO createGroupDTO)
+        {
+            Room room = RoomMapper.fromCreateModel(createGroupDTO); 
+            var list = await roomDAO.AddAsync(room); 
+            return Ok(list); 
+        }
+        
+        [HttpDelete("room/{roomId}")] 
+        public async Task<ActionResult<ICollection<Room>>> Delete(int roomId)
+        {
+            var list = await roomDAO.DeleteAsync(roomId); 
+            return Ok(list); 
+        }
     }
 }

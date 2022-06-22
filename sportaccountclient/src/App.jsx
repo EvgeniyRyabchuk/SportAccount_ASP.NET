@@ -3,7 +3,6 @@ import './App.css';
 import AppRouter from "./components/AppRouter";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import User from "./models/User";
 import React, {useState} from "react";
 import UserContext from "./context/UserContext";
 import {BrowserRouter} from "react-router-dom";
@@ -17,7 +16,7 @@ function App() {
         first_name: null,
         last_name: null,
         middle_name: null,
-
+        role: null,
         login: null,
         birthDate: null,
         isLoggenIn: false
@@ -27,8 +26,8 @@ function App() {
   return (
       <BrowserRouter>
           <UserContext.Provider value={{user, setUser}}>
-              <div className="App" style={{padding: '10px'}}>
-                  <Header />
+              <div className="App" style={{padding: '0px'}}>
+                  <Header   />
                   <main style={{minHeight: '90vh', marginTop: '10px'}}>
                       <AppRouter />
                   </main>

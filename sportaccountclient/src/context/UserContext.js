@@ -1,6 +1,14 @@
 import React from "react";
-import User from "../models/User";
 
 
-const UserContext = React.createContext(User);
+const UserContext = React.createContext({
+    id: null,
+    first_name: null,
+    last_name: null,
+    middle_name: null,
+    role: null,
+    login: null,
+    birthDate: null,
+    isLoggenIn: false
+});
 export default UserContext;

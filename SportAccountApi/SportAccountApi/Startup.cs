@@ -27,9 +27,11 @@ namespace SportAccountApi
         public void ConfigureServices(IServiceCollection services)
         {
             string connection = Configuration.GetConnectionString("DefaultConnection");
+            //string connection = "workstation id=SportAccount.mssql.somee.com;packet size=4096;user id=dipaber974_SQLLogin_2;pwd=k4w6zt1rlq;data source=SportAccount.mssql.somee.com;persist security info=False;initial catalog=SportAccount";
+
             services.AddCors(option =>
                     option.AddDefaultPolicy(builder => 
-                        builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()
+                        builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod() 
                     )
 
                 ); // добавляем сервисы CORS
@@ -48,7 +50,7 @@ namespace SportAccountApi
                 {
                     Description = "Standard Authorization header using the Bearer scheme (\"bearer {token}\")",
                     In = ParameterLocation.Header,
-                    Name = "Authorization",
+                    Name = "Authorization", 
                     Type = SecuritySchemeType.ApiKey
                 });
 

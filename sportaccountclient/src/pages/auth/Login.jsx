@@ -20,7 +20,7 @@ const Login = () => {
         newUser.firstName = data.firstName;
         newUser.lastName = data.lastName;
         newUser.middleName = data.middleName;
-
+        newUser.role = data.role;
         setUser({...newUser, isLoggenIn: true});
         return newUser
     }

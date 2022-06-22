@@ -47,7 +47,7 @@ namespace SportAccountApi.Controllers
             var list = await workoutDAO.GetAllAsync();
             return Ok(list);
         }
-
+        
         // get all workdays by coach 
         [HttpGet("coach/{coachId}/workday")]
         public async Task<ActionResult<ScheduleWorkday>> AllWorkDaysByCoachAsync(int coachId)
@@ -97,7 +97,7 @@ namespace SportAccountApi.Controllers
             ScheduleWorkout scheduleWorkoutMapped = WorkoutMapper.FromCreateModel(createWorkoutDTO, scheduleWorkday.Id);
 
             var list = await workoutDAO.AddAsync(scheduleWorkoutMapped);
-            return Ok(list);
+            return Ok(list); 
         }
 
 

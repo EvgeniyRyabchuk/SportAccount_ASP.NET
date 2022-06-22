@@ -86,7 +86,6 @@ namespace SportAccountApi.Controllers
         }
 
 
-
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> Show(int id)
         {
@@ -101,7 +100,6 @@ namespace SportAccountApi.Controllers
                 //return BadRequest(ex.Message);
             }
         }
-
 
 
         [HttpPost]
@@ -124,29 +122,45 @@ namespace SportAccountApi.Controllers
             }
           
         }
-
-
-        [HttpPost("/{userId}/group/{groupId}")]
+        
+        
+        [HttpPost("{userId}/group/{groupId}")]
         public async Task<ActionResult<User>> AddUserToGroup(int userId, int groupId)
         {
             try
             {
-                User currentUser = await _SL.GetCurrentUser(userDAO, httpContextAccessor);
+                //User currentUser = await _SL.GetCurrentUser(userDAO, httpContextAccessor);
                 //TODO: temp code for debug 
-                if (currentUser == null) currentUser = await userDAO.ByIdAsync(1);
-                if (currentUser.Id != userId) return BadRequest("Page not found. 404"); 
+                //if (currentUser == null) currentUser = await userDAO.ByIdAsync(1);
+                //if (currentUser.Id != userId) return BadRequest("Page not found. 404"); 
 
                 User user = await userDAO.ByIdAsync(userId);
                 Group group = await groupDAO.FindByIdAsync(groupId); 
-
+                
                 var list = await userDAO.AddGroupAsync(user, group);
-                return Ok(list);
+                return Ok(list); 
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpDelete("{userId}/group/{groupId}")]
+        public async Task<ActionResult<User>> DeleteUserFromGroup(int userId, int groupId)
+        {
+            try
+            {
+                var list = await userDAO.DeleteGroupFromUserAsync(groupId, userId);
+                return Ok(list); 
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
 
 
 

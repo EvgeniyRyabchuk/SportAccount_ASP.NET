@@ -11,8 +11,6 @@ const Header = () => {
     const [isLoggedIn, setISLoggedIn] = useState(false);
     const { pathname } = useLocation();
 
-    console.log(123)
-
     const getCurUser = async () => {
         const res = await AuthService.current();
         const data = res.data;
@@ -21,6 +19,7 @@ const Header = () => {
         user.firstName = data.firstName;
         user.lastName = data.lastName;
         user.middleName = data.middleName;
+        user.role = data.role;
         user.isLoggenIn = true;
         setUser(user);
 
@@ -88,7 +87,7 @@ const Header = () => {
     };
 
     return (
-        <header>
+        <header style={{padding: '10px'}}>
             <Nav variant="pills" activeKey={activeKey} onSelect={handleSelect}>
                 <Nav.Item>
                     <Nav.Link eventKey="1">

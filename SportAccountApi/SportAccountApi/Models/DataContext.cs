@@ -135,11 +135,24 @@ namespace SportAccountApi.Models
                 SexId = 1,
             });
 
+            modelBuilder.Entity<User>().HasData(new User
+            {
+                Id = 4,
+                FirstName = "Jackson",
+                LastName = "Sweem",
+                BirthDate = new DateTime(1995, 06, 23), 
+                RoleId = 1,
+                Login = "qwerty", 
+                PasswordHash = hashPwd, 
+                PasswordSalt = hashSalt,
+                SexId = 1,
+            });
+
             // admin 
 
             modelBuilder.Entity<User>().HasData(new User
             {
-                Id = 4,
+                Id = 5,
                 FirstName = "John",
                 LastName = "Cook",
                 BirthDate = new DateTime(1980, 03, 15),

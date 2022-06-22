@@ -144,12 +144,12 @@ namespace SportAccountApi.DAL
             {
                 throw new Exception("The group already exist for this user"); 
             }
-
+            
             user.Groups.Add(group);
             await db.SaveChangesAsync();
-            return await db.Users.ToListAsync();
+            return group.Users; 
         }
-
+        
         public async Task<ICollection<User>> UpdateAsync(User request)
         {
             var user = await db.Users.FindAsync(request.Id); 
@@ -175,6 +175,33 @@ namespace SportAccountApi.DAL
             await db.SaveChangesAsync();
             return await db.Users.ToListAsync(); 
         }
+
+        public async Task<ICollection<User>> DeleteGroupFromUserAsync(int groupId, int userId)
+        {
+            Group group = await db.Groups.Include(g => g.Users).Where(g => g.Id == groupId).FirstAsync(); 
+            User user = null; 
+            
+            foreach (User curUser in group.Users) 
+            {
+                if(curUser.Id == userId)
+                {
+                    user = curUser;
+                    break;
+                }
+            }
+         
+            
+            if (user == null)
+                throw new Exception("User does't exist");
+            if (group == null)
+                throw new Exception("Group does't exist");
+
+            user.Groups.Remove(group); 
+            
+            await db.SaveChangesAsync();
+            return group.Users; 
+        }
+
 
     }
 }

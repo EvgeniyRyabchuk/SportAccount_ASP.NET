@@ -29,9 +29,20 @@ namespace SportAccountApi.Controllers
         {
             try
             {
-                var list = await groupDAO.GetAllAsync();
+                  
+                ICollection<Group> list = await groupDAO.GetAllAsync();
 
-                return Ok(list); 
+                ICollection<object> result = new List<object>();
+
+                foreach(Group group in list)
+                {
+                    ICollection<User> users = await userDAO.ByGroupIdAsync(group.Id);
+                    result.Add(new { group = group, count = users.Count }); 
+
+                }
+           
+
+                return Ok(result);   
             }
             catch (Exception ex)
             {
@@ -46,7 +57,7 @@ namespace SportAccountApi.Controllers
             Group group = await groupDAO.FindByIdAsync(groupId);
             ICollection<User> users = await userDAO.ByGroupIdAsync(groupId);
             int count = 0; 
-            if (group.Users != null)
+            if (group.Users != null) 
                 count = group.Users.Count; 
 
             return Ok(new { group, count, users }); 
@@ -60,9 +71,18 @@ namespace SportAccountApi.Controllers
             {
                 Group group = GroupMapper.FromCreateModel(createGroupDTO);
 
-                var list = await groupDAO.AddAsync(group); 
+                var list = await groupDAO.AddAsync(group);
 
-                return Ok(list);
+                ICollection<object> result = new List<object>();
+
+                foreach (Group g in list)
+                {
+                    ICollection<User> users = await userDAO.ByGroupIdAsync(g.Id);
+                    result.Add(new { group = g, count = users.Count });
+
+                }
+                
+                return Ok(result);
             }
             catch (Exception ex)
             {

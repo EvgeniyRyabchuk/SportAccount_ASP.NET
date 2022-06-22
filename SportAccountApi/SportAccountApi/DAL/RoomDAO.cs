@@ -14,19 +14,24 @@ namespace SportAccountApi.DAL
             this.db = db;
         }
 
-        public Task<ICollection<Room>> AddAsync(Room model)
+        public async Task<ICollection<Room>> AddAsync(Room model)
         {
-            throw new System.NotImplementedException();
+            await db.Rooms.AddAsync(model);
+            await db.SaveChangesAsync();
+            return await db.Rooms.ToListAsync(); 
         }
 
-        public Task<ICollection<Room>> DeleteAsync(int id)
+        public async Task<ICollection<Room>> DeleteAsync(int id)
         {
-            throw new System.NotImplementedException();
+            Room room = await db.Rooms.FindAsync(id);
+            db.Rooms.Remove(room); 
+            await db.SaveChangesAsync();
+            return await db.Rooms.ToListAsync(); 
         }
 
         public async Task<Room> FindByIdAsync(int id)
         {
-            return await db.Rooms.FindAsync(id);
+            return await db.Rooms.FindAsync(id); 
         }
 
         public async Task<ICollection<Room>> GetAllAsync()

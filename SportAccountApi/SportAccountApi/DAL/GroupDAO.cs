@@ -41,7 +41,9 @@ namespace SportAccountApi.DAL
 
         public async Task<ICollection<Models.Group>> GetAllAsync()
         {
-            return await db.Groups.Include(g => g.Users).ToListAsync(); 
+            return await db.Groups
+                .Include(g => g.Users)
+                .ToListAsync(); 
         }
 
         public async Task<ICollection<Models.Group>> UpdateAsync(Models.Group model)

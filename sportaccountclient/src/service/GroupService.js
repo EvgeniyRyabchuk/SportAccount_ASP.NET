@@ -10,6 +10,14 @@ export default class GroupService {
         return $api.get( `${API_URL}/group/${id}`)
     }
 
+    static async Add(payload) {
+        const res = await $api.post( `${API_URL}/group`,
+            JSON.stringify(payload),
+            {
+                headers: {'Content-Type': 'application/json'}})
+        return res.data;
+    }
+
     static async Update(payload) {
         return $api.put(`${API_URL}/user`, payload)
     }
