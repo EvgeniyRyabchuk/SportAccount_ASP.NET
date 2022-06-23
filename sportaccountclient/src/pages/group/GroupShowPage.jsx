@@ -8,7 +8,6 @@ const GroupShowPage = () => {
 
     const { groupId } = useParams();
     const [show, setShow] = useState(false);
-
     const [members, setMembers] = useState();
 
     const usersListChange = (members) => {

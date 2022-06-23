@@ -6,29 +6,17 @@ import {dateOnly, dateWordFormat, timeOnly} from "../../../helpers/date";
 import UserFullName from "../../../components/UserFullName";
 import {Button, Form, Modal} from "react-bootstrap";
 import UserContext from "../../../context/UserContext";
+import SignUpForWorkoutModal from "../../../components/modals/SignUpForWorkoutModal";
 
 const WorkDayShowPage = () => {
 
     const { coachId, workdayId } = useParams();
-
 
     const [coach, setCoach] = useState(null);
     const [workday, setWorkday] = useState(null);
     const [workouts, setWorkouts] = useState(null);
     const {user, setUser} = useContext(UserContext);
     const [show, setShow] = useState(false);
-
-    const [startTimeWorkout, setStartTimeWorkout] = useState(null);
-    const [endTimeWorkout, setEndTimeWorkout] = useState(null);
-
-    const handleClose = () => setShow(false);
-    const handleShow = () => {
-        setShow(true);
-
-    }
-
-    const startEl = useRef();
-    const endEl = useRef();
 
     const getCoach = async () => {
         const res = await CoachService.show(coachId);
@@ -42,8 +30,8 @@ const WorkDayShowPage = () => {
         const data = res.data;
         console.log(data);
 
-        setStartTimeWorkout(timeOnly(data.startTime));
-        setEndTimeWorkout(timeOnly(data.endTime));
+        // setStartTimeWorkout(timeOnly(data.startTime));
+        // setEndTimeWorkout(timeOnly(data.endTime));
         setWorkday(data);
 
     }
@@ -63,33 +51,6 @@ const WorkDayShowPage = () => {
 
     }, [])
 
-
-    const sigUp = async () => {
-        //TODO: restrictions time check
-        console.log(startTimeWorkout);
-        console.log(endTimeWorkout);
-
-        console.log(workday.startTime)
-        console.log(workday.endTime)
-
-        console.log(startEl)
-
-
-        const payload = {
-            clientId: user.id,
-            roomId: 1,
-            workoutTypeId: 2,
-            start: `2022-06-22T${startTimeWorkout}:00.149Z`,
-            end: `2022-06-22T${endTimeWorkout}:00.149Z`
-        }
-
-        const res = await ScheduleService.AddWorkOuts(coachId, workday.id, payload);
-
-        setWorkouts([...res.data]);
-
-        handleClose();
-    }
-
     return (
         <div className='px-3 py-3'>
             Work Day
@@ -106,62 +67,22 @@ const WorkDayShowPage = () => {
                     </p> : ''}
 
                 <br/>
-                {
-                    user.isLoggenIn && user.role.name == 'Client' ?
-                        <Button variant="dark" onClick={handleShow}>Sign up for a workout</Button>
+
+
+                { user.isLoggenIn ?
+                    <div>
+                        <Button variant="dark" onClick={() => setShow(true)}>Sign for for a workout</Button>
+                        <SignUpForWorkoutModal
+                            show={show}
+                            setShow={setShow}
+                            setWorkouts={(data) => setWorkouts([...data]) }
+                            workday={workday}
+                            workoutType={ user.role.name == 'Client' ? 'Personal' : 'Group'}
+                        />
+                    </div>
                     : ''
                 }
 
-                <Modal show={show} onHide={handleClose}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Sign up to workout</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <Form>
-
-                            <Form.Group
-                                className="mb-3"
-                                controlId="formBasicPassword"
-                            >
-                                <Form.Group controlId="dob">
-                                    <Form.Label>Select Start Time</Form.Label>
-                                    <Form.Control
-                                        ref={startEl}
-                                        type="time"
-                                        name="dob"
-                                        value={startTimeWorkout}
-                                        defaultValue={startTimeWorkout}
-                                        placeholder="Start time"
-                                        onChange={(e) => setStartTimeWorkout(e.target.value) }
-                                    />
-                                </Form.Group>
-                            </Form.Group>
-
-                            <Form.Group className="mb-3" controlId="formBasicPassword">
-                                <Form.Group controlId="dob">
-                                    <Form.Label>Select End Time</Form.Label>
-                                    <Form.Control
-                                        ref={endEl}
-                                        type="time"
-                                        name="dfob"
-                                        placeholder="End time"
-                                        value={endTimeWorkout}
-                                        defaultValue={endTimeWorkout}
-                                        onChange={(e) => setEndTimeWorkout(e.target.value) }
-                                    />
-                                </Form.Group>
-                            </Form.Group>
-                        </Form>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="secondary" onClick={handleClose}>
-                            Close
-                        </Button>
-                        <Button variant="primary" onClick={sigUp}>
-                            Save Changes
-                        </Button>
-                    </Modal.Footer>
-                </Modal>
 
                 <ul className='mt-5 px-3 py-3'>
                     { workouts ? workouts.map(e =>
@@ -189,7 +110,7 @@ const WorkDayShowPage = () => {
                                     </span>
                                 </div>
                             :
-                                <div>
+                                <div className='d-flex'>
                                     <div>
                                         <span className='field-title'>For Group: </span>
                                         <span className='field-value'> {e.group.name} </span>

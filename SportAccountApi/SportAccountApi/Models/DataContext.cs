@@ -42,6 +42,14 @@ namespace SportAccountApi.Models
 
             });
 
+
+            //TODO: delete cascade many-to-many 
+            //modelBuilder.Entity<User>()
+            //    .HasMany(i => i.Groups)
+            //    .WithMany(c => c.Users)
+            //    .OnDelete(DeleteBehavior.Cascade); 
+
+
             modelBuilder.Entity<Role>().HasData(
                 new Role { Id = 1, Name = "Client" }, 
                 new Role { Id = 2, Name = "Coach" },
@@ -100,14 +108,14 @@ namespace SportAccountApi.Models
                 MiddleName = "MN", 
                 BirthDate = new DateTime(2001, 01, 31),
                 RoleId = 2, 
-                Login = "1", 
+                Login = "coach", 
                 PasswordHash = hashPwd,
                 PasswordSalt = hashSalt,
                 SexId = 1,
                 StatusId = 1,
                 SpecializationId = 1
             });
-
+            
             // client 
             modelBuilder.Entity<User>().HasData(new User
             {
@@ -116,7 +124,7 @@ namespace SportAccountApi.Models
                 LastName = "Menders",
                 BirthDate = new DateTime(2001, 01, 31),
                 RoleId = 1,
-                Login = "12345",
+                Login = "client1",
                 PasswordHash = hashPwd,
                 PasswordSalt = hashSalt,
                 SexId = 2,
@@ -129,7 +137,7 @@ namespace SportAccountApi.Models
                 LastName = "Clark",
                 BirthDate = new DateTime(1995, 06, 23),
                 RoleId = 1,
-                Login = "123456",
+                Login = "client2",
                 PasswordHash = hashPwd, 
                 PasswordSalt = hashSalt,
                 SexId = 1,
@@ -142,7 +150,7 @@ namespace SportAccountApi.Models
                 LastName = "Sweem",
                 BirthDate = new DateTime(1995, 06, 23), 
                 RoleId = 1,
-                Login = "qwerty", 
+                Login = "client3", 
                 PasswordHash = hashPwd, 
                 PasswordSalt = hashSalt,
                 SexId = 1,
@@ -157,9 +165,9 @@ namespace SportAccountApi.Models
                 LastName = "Cook",
                 BirthDate = new DateTime(1980, 03, 15),
                 RoleId = 3, 
-                Login = "111",
+                Login = "admin",
                 PasswordHash = hashPwd, 
-                PasswordSalt = hashSalt,
+                PasswordSalt = hashSalt, 
                 SexId = 1,
             });
 

@@ -16,6 +16,12 @@ const GroupListPage = () => {
         console.log(res);
     }
 
+    const deleteGroup = async (gId) => {
+        const data = await GroupService.Delete(gId);
+        setGroupList([...data]);
+    }
+
+
     useEffect(() => {
         getGroups();
     }, [])
@@ -57,6 +63,13 @@ const GroupListPage = () => {
                                    href={`/group/${e.group.id}`}>
                                     See Group Members
                                 </a>
+                                <Button
+                                    className='btn btn-danger mx-1'
+                                    type='button'
+                                    onClick={() => deleteGroup(e.group.id)}
+                                >
+                                    Delete
+                                </Button>
                             </td>
                         </tr>
                     ) : ''}

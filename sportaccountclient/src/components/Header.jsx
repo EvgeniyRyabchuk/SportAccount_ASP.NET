@@ -3,6 +3,8 @@ import {Nav, NavDropdown} from 'react-bootstrap';
 import {Link, matchPath, useLocation, useNavigate} from "react-router-dom";
 import UserContext from "../context/UserContext";
 import AuthService from "../service/AuthService";
+import useBackListener from "../hooks/useBackListener ";
+
 
 const Header = () => {
     const navigate = useNavigate();
@@ -10,6 +12,9 @@ const Header = () => {
     const {user, setUser} = useContext(UserContext);
     const [isLoggedIn, setISLoggedIn] = useState(false);
     const { pathname } = useLocation();
+
+
+
 
     const getCurUser = async () => {
         const res = await AuthService.current();
@@ -26,22 +31,32 @@ const Header = () => {
     }
 
 
-    useEffect(() => {
-        getCurUser();
-
-        switch (pathname) {
+    const activateNavBtn = (path) => {
+        switch (path) {
             case '/':
                 setActiveKey(1);
-            break;
+                break;
             case '/group':
                 setActiveKey(2);
                 break;
             case '/room':
                 setActiveKey(3);
                 break;
+            case '/coach':
+                setActiveKey(4);
+                break;
         }
+    }
 
+    useEffect(() => {
+        getCurUser();
+        activateNavBtn(pathname);
     }, [])
+
+
+    useBackListener(({ location }) => {
+        activateNavBtn(location.pathname);
+    });
 
     console.log(user);
 
@@ -114,7 +129,7 @@ const Header = () => {
 
                 <div style={{display: 'flex',}} className={'flex-grow-1 justify-content-end'}>
                     { user.isLoggenIn ?
-                        <NavDropdown title={user.firstName + ' ' + user.lastName} id="nav-dropdown">
+                        <NavDropdown title={`${user.firstName} ${user.lastName} (${user.role.name})`} id="nav-dropdown">
                             <NavDropdown.Item eventKey="4.1">
                                 Profile
                             </NavDropdown.Item>

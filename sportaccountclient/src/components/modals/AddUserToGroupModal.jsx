@@ -13,7 +13,7 @@ const AddUserToGroupModal = ({groupId, show, setShow, membersListChange, members
 
     const addToGroup = async (userId) => {
         const data = await UserService.AddToGroup(groupId, userId);
-        setUsers([...data]);
+        // setUsers([...data]);
         membersListChange(data);
     }
 
@@ -61,7 +61,7 @@ const AddUserToGroupModal = ({groupId, show, setShow, membersListChange, members
                             </Col>
                             <Col>
                                 { members ? members.filter(member => member.id == e.id )[0] ?
-                                    <Button disabled variant="primary" onClick={() => addToGroup(e.id)}>
+                                    <Button disabled variant="primary">
                                         Add to Group
                                     </Button>
                                     :

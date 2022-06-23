@@ -3,13 +3,16 @@ import {useParams} from "react-router-dom";
 import CoachService from "../../../service/CoachService";
 
 import ScheduleService from "../../../service/ScheduleService";
-import getAge, {dateWordFormat, timeOnly} from "../../../helpers/date";
 import CoachCard from "../../../components/coach/CoachCard";
+import {Button} from "react-bootstrap";
+import AddWorkDay from "../../../components/modals/AddWorkDay";
+import {dateWordFormat, timeOnly} from "../../../helpers/date";
 
 const WorkDayListPage = () => {
     const { coachId } = useParams();
     const [coach, setCoach] = useState(null);
     const [workdays, setWorkdays] = useState(null);
+    const [show, setShow] = useState(false);
 
     const getCoach = async () => {
         const res = await CoachService.show(coachId);
@@ -29,7 +32,7 @@ const WorkDayListPage = () => {
         getWorkDays();
     }, [])
 
-
+    console.log(workdays)
 
     return (
         <div className='mt-5 px-5 py-5'>
@@ -38,6 +41,20 @@ const WorkDayListPage = () => {
                 coach ?
                     <CoachCard coach={coach} />
                 : ''}
+
+            <br/>
+
+            <Button
+                style={{width: '500px'}}
+                variant='dark'
+                onClick={() => setShow(true)}
+            >Add WorkDay</Button>
+
+            <AddWorkDay
+                show={show}
+                setShow={setShow}
+                setWorkdays={(data) => setWorkdays([...data])}
+            />
 
             <ul className='mt-5 px-3 py-3  border-bottom'>
                 { workdays ? workdays.map(e =>
@@ -59,7 +76,7 @@ const WorkDayListPage = () => {
 
                         <a className='btn btn-primary mx-1'
                            type='button'
-                           href={`/coach/${e.id}/schedule/workday/${e.id}`}>
+                           href={`/coach/${coachId}/schedule/workday/${e.id}`}>
                             See Workouts
                         </a>
                     </li>

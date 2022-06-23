@@ -26,7 +26,10 @@ namespace SportAccountApi.DAL
 
         public async Task<ICollection<Models.Group>> DeleteAsync(int id)
         {
-            throw new System.NotImplementedException();
+            Models.Group group = await db.Groups.FindAsync(id);
+            db.Groups.Remove(group);
+            await db.SaveChangesAsync(); 
+            return await db.Groups.ToListAsync(); 
         }
 
         public async Task<Models.Group> FindByIdAsync(int id)

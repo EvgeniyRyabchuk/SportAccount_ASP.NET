@@ -49,7 +49,8 @@ namespace SportAccountApi.Models
         public int RoleId { get; set; } = 1; 
         public Role Role { get; set; } 
 
-        public List<Phone> Phones { get; set; } 
+        public List<Phone> Phones { get; set; }
+
 
         
         public List<Group> Groups { get; set; }

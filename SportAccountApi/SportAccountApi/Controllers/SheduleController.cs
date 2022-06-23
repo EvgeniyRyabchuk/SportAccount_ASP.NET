@@ -67,7 +67,7 @@ namespace SportAccountApi.Controllers
         }
 
         // get all workouts by workday 
-        [HttpGet("coach/{coachId}/workday/{workdayId}/workout")]
+        [HttpGet("coach/{coachId}/workday/{workdayId}/workout")] 
         public async Task<IActionResult> AllWorkoutsByDayAsync(int coachId, int workdayId)
         {
             User coach = await userDAO.FindByIdAsync(coachId);
@@ -75,7 +75,7 @@ namespace SportAccountApi.Controllers
             ICollection<ScheduleWorkout> list = await workoutDAO.GetAllByDayIdAsync(workdayId);
             return Ok(list);
         }
-
+        
         
         [HttpPost("coach/{coachId}/workday")] 
         public async Task<ActionResult<ScheduleWorkday>>
@@ -87,6 +87,7 @@ namespace SportAccountApi.Controllers
             return Ok(list);
         }
 
+
         //TODO: check if time interval is free for workout 
         [HttpPost("coach/{coachId}/workday/{workdayId}/workout")]
         public async Task<ActionResult<ScheduleWorkday>> 
@@ -96,10 +97,11 @@ namespace SportAccountApi.Controllers
             ScheduleWorkday scheduleWorkday = await workdayDAO.FindByIdAsync(workdayId);
             ScheduleWorkout scheduleWorkoutMapped = WorkoutMapper.FromCreateModel(createWorkoutDTO, scheduleWorkday.Id);
 
-            var list = await workoutDAO.AddAsync(scheduleWorkoutMapped);
+            var list = await workoutDAO.AddAsync(scheduleWorkoutMapped); 
             return Ok(list); 
         }
-
+        
+        
 
         [HttpDelete("workday/{workdayId}")]
         public async Task<ActionResult<ScheduleWorkday>> DeleteWorkDayAsync(int workdayId)

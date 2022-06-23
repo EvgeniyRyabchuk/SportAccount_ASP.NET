@@ -12,6 +12,7 @@ export default function getAge(dateString) {
 }
 
  export function timeOnly(date) {
+
      var d = new Date(date);
      const h = d.getHours(); // => 9
      const m = d.getMinutes(); // =>  30

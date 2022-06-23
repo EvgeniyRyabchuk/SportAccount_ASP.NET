@@ -25,6 +25,16 @@ export default class ScheduleService {
         );
     }
 
+    static async AddWorkDay(coachId, payload)  {
+        const res = await $api.post
+        (`${API_URL}/schedule/coach/${coachId}/workday/`,
+            JSON.stringify(payload), { headers: {
+                    'Content-Type': 'application/json',
+                }}
+        );
+        return res.data;
+    }
+
 
     static async Show(id) {
         return $api.get( `${API_URL}/user/${id}`)

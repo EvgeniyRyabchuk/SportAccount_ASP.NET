@@ -7,8 +7,8 @@ import {Button} from "react-bootstrap";
 import UserService from "../service/UserService";
 
 const MemberList = ({members, setMembers}) => {
-    const { groupId } = useParams();
 
+    const { groupId } = useParams();
     const [ group, setGroup ] = useState(null);
 
     useEffect(() => {
@@ -19,7 +19,6 @@ const MemberList = ({members, setMembers}) => {
         }
     }, [members])
 
-
     const getGroup =  async () => {
         const res = await GroupService.Show(groupId);
         const data = res.data;
@@ -28,17 +27,16 @@ const MemberList = ({members, setMembers}) => {
         setMembers(data.users);
     }
 
-    const deleteGroup = async (userId) => {
+    const deleteUserFromGroup = async (userId) => {
         console.log(123)
         const data = await UserService.DeleteGroup(groupId, userId);
-        group.users = data;
-        console.log(data);
-        setGroup({...group});
+        setMembers(data);
     }
 
     useEffect(() => {
         getGroup();
     }, [])
+
     return (
         <div>
             <h1>Group Name: {group ? group.group.name : ''}</h1>
@@ -52,14 +50,13 @@ const MemberList = ({members, setMembers}) => {
                             <Button
                                 className='px-3 ml-5'
                                 variant='danger'
-                                onClick={() => deleteGroup(e.id)}
+                                onClick={() => deleteUserFromGroup(e.id)}
                             >
                                 Delete
                             </Button>
                         </li>
                     )
                         : ''
-
                 }
             </ul>
         </div>

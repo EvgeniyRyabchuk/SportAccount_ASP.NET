@@ -1,0 +1,12 @@
+use SportAccount;
+go
+Exec sp_MSforeachtable "ALTER TABLE ? NOCHECK CONSTRAINT All"
+
+Use SportAccount
+go
+Exec sp_MSforeachtable @Command1 = "Drop Table?" 
+
+
+
+
+

@@ -23,7 +23,8 @@ export default class GroupService {
     }
 
     static async Delete(id) {
-        return $api.delete(`${API_URL}/user/${id}`)
+        const res = $api.delete(`${API_URL}/group/${id}`);
+        return res.data;
     }
 
 }

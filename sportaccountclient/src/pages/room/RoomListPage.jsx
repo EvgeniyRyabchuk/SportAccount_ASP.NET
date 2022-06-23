@@ -15,6 +15,10 @@ const RoomListPage = () => {
         console.log(data);
     };
 
+    const deleteRoom = () => {
+
+    }
+
     useEffect( () => {
         fetchData();
     }, [])
@@ -42,6 +46,10 @@ const RoomListPage = () => {
                 <tr>
                     <th>#</th>
                     <th>Room Name</th>
+                    <th>Room Number</th>
+                    <th>Room Area Size</th>
+                    <th>Room Floor</th>
+                    <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -49,7 +57,17 @@ const RoomListPage = () => {
                     <tr id={e.id}>
                         <td>{e.id}</td>
                         <td>{e.name}</td>
-
+                        <td>{e.number}</td>
+                        <td>{e.areaSize} M <sup><small>3</small></sup></td>
+                        <td>{e.floor}</td>
+                        <td>
+                            <Button
+                            variant='danger'
+                            onClick={() => deleteRoom}
+                            >
+                                Delete
+                            </Button>
+                        </td>
                     </tr>
                 ) : ''}
 

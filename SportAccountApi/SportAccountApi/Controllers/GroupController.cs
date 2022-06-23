@@ -63,7 +63,7 @@ namespace SportAccountApi.Controllers
             return Ok(new { group, count, users }); 
         }
 
-
+        
         [HttpPost]
         public async Task<IActionResult> StoreAsync(CreateGroupDTO createGroupDTO)
         {
@@ -99,6 +99,13 @@ namespace SportAccountApi.Controllers
 
             if (list == null) list = new List<User>();  
             
+            return Ok(list);
+        }
+
+        [HttpDelete("{groupId}")]
+        public async Task<IActionResult> DeleteAsync(int groupId)
+        {
+            var list = await groupDAO.DeleteAsync(groupId); 
             return Ok(list);
         }
     }
