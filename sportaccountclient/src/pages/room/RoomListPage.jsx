@@ -1,12 +1,14 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import RoomService from "../../service/RoomService";
 import {Button, Table} from "react-bootstrap";
 import AddRoomModal from "../../components/modals/AddRoomModal";
+import UserContext from "../../context/UserContext";
 
 const RoomListPage = () => {
 
     const [room, setRoom] = useState([]);
     const [show, setShow] = useState(false);
+    const {user, setUser} = useContext(UserContext);
 
     const fetchData = async () => {
         const response = await RoomService.Index();
@@ -28,11 +30,13 @@ const RoomListPage = () => {
             RoomListPage
 
             <br/>
-            <Button
+            {user ? user.isLoggenIn && user.role.name == 'Admin' ?
+                    <Button
                 style={{width: '500px'}}
                 variant='dark'
                 onClick={() => setShow(true)}
             >Add room</Button>
+            : '' : '' }
 
             <AddRoomModal
                 show={show}
@@ -60,7 +64,8 @@ const RoomListPage = () => {
                         <td>{e.number}</td>
                         <td>{e.areaSize} M <sup><small>3</small></sup></td>
                         <td>{e.floor}</td>
-                        <td>
+                        {user ? user.isLoggenIn && user.role.name == 'Admin' ?
+                            <td>
                             <Button
                                 variant='btn btn-warning'
                             >
@@ -73,6 +78,7 @@ const RoomListPage = () => {
                                 Delete
                             </Button>
                         </td>
+                            : '' : '' }
                     </tr>
                 ) : ''}
 

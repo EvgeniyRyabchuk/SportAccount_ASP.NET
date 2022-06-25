@@ -174,7 +174,7 @@ namespace SportAccountApi.Models
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = 6,
-                FirstName = "David",
+                FirstName = "David", 
                 LastName = "DL",
                 MiddleName = "DN",
                 BirthDate = new DateTime(1990, 04, 16),

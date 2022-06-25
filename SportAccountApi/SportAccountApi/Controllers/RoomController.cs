@@ -25,6 +25,7 @@ namespace SportAccountApi.Controllers
             roomDAO = new RoomDAO(dataContext);
         }
         
+        //[HttpGet, Authorize(Roles = "Admin")] 
         [HttpGet] 
         public async Task<ActionResult<ICollection<Room>>> IndexAsync()
         {

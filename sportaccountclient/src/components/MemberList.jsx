@@ -1,15 +1,17 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Link, useParams} from "react-router-dom";
 import CoachService from "../service/CoachService";
 import GroupService from "../service/GroupService";
 import UserFullName from "./UserFullName";
 import {Button} from "react-bootstrap";
 import UserService from "../service/UserService";
+import UserContext from "../context/UserContext";
 
 const MemberList = ({members, setMembers}) => {
 
     const { groupId } = useParams();
     const [ group, setGroup ] = useState(null);
+    const {user, setUser} = useContext(UserContext);
 
     useEffect(() => {
         if(group && members) {
@@ -47,13 +49,15 @@ const MemberList = ({members, setMembers}) => {
                             <Link className='px-3' to={`/profile/${e.id}`}>
                                 <UserFullName data={e}/>
                             </Link>
-                            <Button
-                                className='px-3 ml-5'
-                                variant='danger'
-                                onClick={() => deleteUserFromGroup(e.id)}
-                            >
-                                Delete
-                            </Button>
+                            {user ? user.isLoggenIn && user.role.name == 'Admin' ?
+                                <Button
+                                    className='px-3 ml-5'
+                                    variant='danger'
+                                    onClick={() => deleteUserFromGroup(e.id)}
+                                >
+                                    Delete
+                                </Button>
+                                : '' : '' }
                         </li>
                     )
                         : ''

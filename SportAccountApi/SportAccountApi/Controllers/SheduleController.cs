@@ -88,7 +88,8 @@ namespace SportAccountApi.Controllers
         {
             User coach = await userDAO.FindByIdAsync(coachId); 
             ScheduleWorkday scheduleWorkdayMapper = WorkdayMapper.FromCreateModel(createWorkdayDTO, coach);
-            var list = await workdayDAO.AddAsync(scheduleWorkdayMapper); 
+            await workdayDAO.AddAsync(scheduleWorkdayMapper);
+            var list = await workdayDAO.GetAllByUserIdAsync(coachId); 
             return Ok(list);
         }
 
@@ -134,14 +135,14 @@ namespace SportAccountApi.Controllers
                    
                 }
             }
-
+            
             ScheduleWorkout scheduleWorkoutMapped = WorkoutMapper.FromCreateModel(createWorkoutDTO, scheduleWorkday.Id);
             var list = await workoutDAO.AddAsync(scheduleWorkoutMapped); 
             return Ok(list); 
         }
         
         
-
+        
         [HttpDelete("workday/{workdayId}")]
         public async Task<ActionResult<ScheduleWorkday>> DeleteWorkDayAsync(int workdayId)
         {

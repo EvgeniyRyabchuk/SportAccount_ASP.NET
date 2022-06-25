@@ -85,7 +85,7 @@ const AddWorkDay = ({setShow, show, setWorkdays}) => {
                         Close
                     </Button>
                     <Button variant="primary" onClick={handle}>
-                        Add Group
+                        Add Work Day
                     </Button>
                 </Modal.Footer>
             </Modal>

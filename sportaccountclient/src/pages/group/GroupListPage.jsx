@@ -1,13 +1,15 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import MemberList from "../../components/MemberList";
 import GroupService from "../../service/GroupService";
 import {Button, Table} from "react-bootstrap";
 import AddGroupModal from "../../components/modals/AddGroupModal";
+import UserContext from "../../context/UserContext";
 
 const GroupListPage = () => {
 
     const [groups, setGroupList] = useState();
     const [show, setShow] = useState(false);
+    const {user, setUser} = useContext(UserContext);
 
     console.log(groups)
     const getGroups = async () => {
@@ -30,11 +32,13 @@ const GroupListPage = () => {
         <div>
             GroupListPage
             <br/>
-            <Button
-                style={{width: '500px'}}
-                variant='dark'
-                onClick={() => setShow(true)}
-            >Add group</Button>
+            {user ? user.isLoggenIn && user.role.name == 'Admin' ?
+                <Button
+                    style={{width: '500px'}}
+                    variant='dark'
+                    onClick={() => setShow(true)}
+                >Add group</Button>
+            : '' : '' }
 
             <AddGroupModal
                 show={show}
@@ -58,24 +62,31 @@ const GroupListPage = () => {
                             <td>{e.group.name}</td>
                             <td>{e.count}</td>
                             <td>
-                                <a className='btn btn-primary mx-1'
-                                   type='button'
-                                   href={`/group/${e.group.id}`}>
-                                    See Group Members
-                                </a>
-                                <Button
-                                    className='btn btn-warning mx-1'
-                                    type='button'
-                                >
-                                    Edit
-                                </Button>
-                                <Button
-                                    className='btn btn-danger mx-1'
-                                    type='button'
-                                    onClick={() => deleteGroup(e.group.id)}
-                                >
-                                    Delete
-                                </Button>
+                                <div className='d-flex justify-content-center'>
+                                    <a className='btn btn-primary mx-1'
+                                       type='button'
+                                       href={`/group/${e.group.id}`}>
+                                        See Group Members
+                                    </a>
+                                    {user ? user.isLoggenIn && user.role.name == 'Admin' ?
+                                        <div>
+                                            <Button
+                                                className='btn btn-warning mx-1'
+                                                type='button'
+                                            >
+                                                Edit
+                                            </Button>
+                                            <Button
+                                                className='btn btn-danger mx-1'
+                                                type='button'
+                                                onClick={() => deleteGroup(e.group.id)}
+                                            >
+                                                Delete
+                                            </Button>
+                                        </div> : '' : ''
+                                    }
+                                </div>
+
                             </td>
                         </tr>
                     ) : ''}

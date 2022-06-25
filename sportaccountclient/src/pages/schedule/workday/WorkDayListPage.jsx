@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {useParams} from "react-router-dom";
 import CoachService from "../../../service/CoachService";
 
@@ -7,12 +7,14 @@ import CoachCard from "../../../components/coach/CoachCard";
 import {Button} from "react-bootstrap";
 import AddWorkDay from "../../../components/modals/AddWorkDay";
 import {dateWordFormat, timeOnly} from "../../../helpers/date";
+import UserContext from "../../../context/UserContext";
 
 const WorkDayListPage = () => {
     const { coachId } = useParams();
     const [coach, setCoach] = useState(null);
     const [workdays, setWorkdays] = useState(null);
     const [show, setShow] = useState(false);
+    const {user, setUser} = useContext(UserContext);
 
     const getCoach = async () => {
         const res = await CoachService.show(coachId);
@@ -43,12 +45,13 @@ const WorkDayListPage = () => {
                 : ''}
 
             <br/>
-
-            <Button
-                style={{width: '500px'}}
-                variant='dark'
-                onClick={() => setShow(true)}
-            >Add WorkDay</Button>
+            {user ? user.isLoggenIn && user.role.name == 'Admin' ?
+                <Button
+                    style={{width: '500px'}}
+                    variant='dark'
+                    onClick={() => setShow(true)}
+                >Add WorkDay</Button>
+            : '' : '' }
 
             <AddWorkDay
                 show={show}
