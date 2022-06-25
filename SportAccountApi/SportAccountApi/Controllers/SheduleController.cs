@@ -1,11 +1,14 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SportAccountApi.DAL;
 using SportAccountApi.DTO.WorkDay;
 using SportAccountApi.DTO.WorkOut;
 using SportAccountApi.Mapper;
 using SportAccountApi.Models;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace SportAccountApi.Controllers
@@ -22,6 +25,8 @@ namespace SportAccountApi.Controllers
         private readonly WorkoutDAO workoutDAO;
 
         private readonly IHttpContextAccessor httpContextAccessor;
+        DataContext db;
+
         public ScheduleController(DataContext dataContext, IHttpContextAccessor httpContextAccessor)
         {
             userDAO = new UserDAO(dataContext);
@@ -29,7 +34,7 @@ namespace SportAccountApi.Controllers
             groupDAO = new GroupDAO(dataContext);
             workdayDAO = new WorkdayDAO(dataContext);
             workoutDAO = new WorkoutDAO(dataContext);
-
+            db = dataContext; 
             this.httpContextAccessor = httpContextAccessor;
         }
 
@@ -89,14 +94,48 @@ namespace SportAccountApi.Controllers
 
 
         //TODO: check if time interval is free for workout 
+        
         [HttpPost("coach/{coachId}/workday/{workdayId}/workout")]
         public async Task<ActionResult<ScheduleWorkday>> 
             AddWorkOutToWorkDayAsync(CreateWorkoutDTO createWorkoutDTO, int coachId, int workdayId)
         {
+
             User coach = await userDAO.FindByIdAsync(coachId);
             ScheduleWorkday scheduleWorkday = await workdayDAO.FindByIdAsync(workdayId);
-            ScheduleWorkout scheduleWorkoutMapped = WorkoutMapper.FromCreateModel(createWorkoutDTO, scheduleWorkday.Id);
 
+            DateTime startTimeForNewWorkout = createWorkoutDTO.start; 
+            DateTime endTimeForNewWorkout = createWorkoutDTO.end;
+            
+            if(startTimeForNewWorkout.TimeOfDay > endTimeForNewWorkout.TimeOfDay)
+            {
+                return BadRequest("Time params does not correct"); 
+            }
+
+            ICollection<ScheduleWorkday> workdayList = await db.ScheduleWorkdays
+                .Where(wd => wd.Date == scheduleWorkday.Date)
+                .ToListAsync(); 
+
+            foreach(ScheduleWorkday workday in workdayList)
+            {
+                ICollection<ScheduleWorkout> workoutsList = await db.ScheduleWorkouts
+                    .Where(wo => wo.SheduleWorkdayId == workday.Id)
+                    .ToListAsync();
+
+                foreach(ScheduleWorkout scheduleWorkout in workoutsList)
+                {
+                    if(scheduleWorkout.RoomId == createWorkoutDTO.RoomId)
+                    {
+                        if (startTimeForNewWorkout.TimeOfDay < scheduleWorkout.end.TimeOfDay
+                            || endTimeForNewWorkout.TimeOfDay < scheduleWorkout.end.TimeOfDay) 
+                        {
+                            return BadRequest("Workout time collision");
+                        } 
+                    }
+                   
+                }
+            }
+
+            ScheduleWorkout scheduleWorkoutMapped = WorkoutMapper.FromCreateModel(createWorkoutDTO, scheduleWorkday.Id);
             var list = await workoutDAO.AddAsync(scheduleWorkoutMapped); 
             return Ok(list); 
         }

@@ -99,7 +99,7 @@ namespace SportAccountApi.Models
             string pwd = "1";
             SL._SL.CreatePasswordHash(pwd, out byte[] hashPwd, out byte[] hashSalt);
 
-            // coach 
+            // coach 1
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = 1,
@@ -108,7 +108,7 @@ namespace SportAccountApi.Models
                 MiddleName = "MN", 
                 BirthDate = new DateTime(2001, 01, 31),
                 RoleId = 2, 
-                Login = "coach", 
+                Login = "coach1", 
                 PasswordHash = hashPwd,
                 PasswordSalt = hashSalt,
                 SexId = 1,
@@ -116,7 +116,7 @@ namespace SportAccountApi.Models
                 SpecializationId = 1
             });
             
-            // client 
+            // client 1
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = 2,
@@ -129,7 +129,7 @@ namespace SportAccountApi.Models
                 PasswordSalt = hashSalt,
                 SexId = 2,
             });
-
+            // client 2
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = 3,
@@ -142,7 +142,7 @@ namespace SportAccountApi.Models
                 PasswordSalt = hashSalt,
                 SexId = 1,
             });
-
+            // client 3 
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = 4,
@@ -157,11 +157,10 @@ namespace SportAccountApi.Models
             });
 
             // admin 
-
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = 5,
-                FirstName = "John",
+                FirstName = "John", 
                 LastName = "Cook",
                 BirthDate = new DateTime(1980, 03, 15),
                 RoleId = 3, 
@@ -171,6 +170,23 @@ namespace SportAccountApi.Models
                 SexId = 1,
             });
 
+            // coach 2
+            modelBuilder.Entity<User>().HasData(new User
+            {
+                Id = 6,
+                FirstName = "David",
+                LastName = "DL",
+                MiddleName = "DN",
+                BirthDate = new DateTime(1990, 04, 16),
+                RoleId = 2,
+                Login = "coach2", 
+                PasswordHash = hashPwd,
+                PasswordSalt = hashSalt,
+                SexId = 1,
+                StatusId = 1,
+                SpecializationId = 1 
+            });
+
             modelBuilder
             .Entity<Group>()
             .HasMany(p => p.Users)
@@ -178,7 +194,7 @@ namespace SportAccountApi.Models
             .UsingEntity(j => j.HasData(
                 new { GroupsId = 1, UsersId = 2 }, 
                 new { GroupsId = 1, UsersId = 3 }, 
-                new { GroupsId = 2, UsersId = 1 } 
+                new { GroupsId = 2, UsersId = 4 } 
             ));
             
 
@@ -190,7 +206,7 @@ namespace SportAccountApi.Models
                new Phone { Id = 4, Number = 982685784, UserId = 2 },
                new Phone { Id = 5, Number = 982834884, UserId = 3 }
            );
-            
+
             modelBuilder.Entity<Room>().HasData(
                 new Room()
                 {
@@ -199,7 +215,16 @@ namespace SportAccountApi.Models
                     Name = "Large Dance Room",
                     AreaSize = 20,
                     Floor = 2
-                }); 
+                },
+                 new Room()
+                 {
+                     Id = 2,
+                     Number = 205,
+                     Name = "Middle Fitness Room",
+                     AreaSize = 10,
+                     Floor = 2
+                 }
+            );  
 
             DateTime currentTime = DateTime.Now;
             
@@ -213,10 +238,21 @@ namespace SportAccountApi.Models
                     EndTime = new DateTime(2022, 6, 18, 18, 0, 0),
                 }
             );
-        
-           // workout for group type
 
-           modelBuilder.Entity<ScheduleWorkout>().HasData(
+            modelBuilder.Entity<ScheduleWorkday>().HasData(
+               new ScheduleWorkday()
+               {
+                   Id = 2,
+                   Date = new DateTime(2022, 6, 18), 
+                   CoachId = 6,  
+                   StartTime = new DateTime(2022, 6, 18, 9, 0, 0),
+                   EndTime = new DateTime(2022, 6, 18, 18, 0, 0),
+               }
+           );
+
+            // workout for group type
+
+            modelBuilder.Entity<ScheduleWorkout>().HasData(
               new ScheduleWorkout()
               {
                   Id = 1,

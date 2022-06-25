@@ -28,7 +28,7 @@ function App() {
           <UserContext.Provider value={{user, setUser}}>
               <div className="App" style={{padding: '0px'}}>
                   <Header   />
-                  <main style={{minHeight: '90vh', marginTop: '10px'}}>
+                  <main style={{minHeight: '100vh', marginTop: '10px'}}>
                       <AppRouter />
                   </main>
                   <Footer />

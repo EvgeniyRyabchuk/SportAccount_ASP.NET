@@ -62,6 +62,11 @@ const RoomListPage = () => {
                         <td>{e.floor}</td>
                         <td>
                             <Button
+                                variant='btn btn-warning'
+                            >
+                                Edit
+                            </Button>
+                            <Button
                             variant='danger'
                             onClick={() => deleteRoom}
                             >

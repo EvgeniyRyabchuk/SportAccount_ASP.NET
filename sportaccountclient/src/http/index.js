@@ -47,9 +47,12 @@ $api.interceptors.response.use((config) => {
 
             return $api.request(originalRequest);
         } catch (e) {
-            // redirect to login form
-            console.log('НЕ АВТОРИЗОВАН')
-            throw new Error('Not auth');
+            if (error.response.status == 401) {
+                // redirect to login form
+                console.log('НЕ АВТОРИЗОВАН')
+                throw new Error('Not auth');
+            }
+            throw e;
         }
     }
     throw error;

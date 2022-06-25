@@ -86,3 +86,12 @@
   -moz-box-shadow: 0px 0px 21px -1px rgba(0,0,0,0.64);
   box-shadow: 0px 0px 21px -1px rgba(0,0,0,0.64);
 }
+
+.alert-custom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 2000;
+  display: none;
+}

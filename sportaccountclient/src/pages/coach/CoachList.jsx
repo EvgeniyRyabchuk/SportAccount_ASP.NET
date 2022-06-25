@@ -19,7 +19,6 @@ const CoachList = () => {
         getCoachList();
     }, []);
 
-    console.log('123')
     return (
         <div style={{padding: '30px 40px'}}>
             Coach List
@@ -37,6 +36,11 @@ const CoachList = () => {
                         <div>
                             <span className='field-title'>Specialization </span>
                             <span className='field-value'> {e.specialization.name} </span>
+                        </div>
+
+                        <div>
+                            <span className='field-title'>Status </span>
+                            <span className='field-value'> {e.status.name} </span>
                         </div>
 
                         <div>

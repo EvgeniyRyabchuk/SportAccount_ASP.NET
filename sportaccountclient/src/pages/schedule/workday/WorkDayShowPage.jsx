@@ -47,8 +47,6 @@ const WorkDayShowPage = () => {
         getCoach();
         getWorkDay();
         getWorkOuts();
-
-
     }, [])
 
     return (
@@ -83,7 +81,6 @@ const WorkDayShowPage = () => {
                     : ''
                 }
 
-
                 <ul className='mt-5 px-3 py-3'>
                     { workouts ? workouts.map(e =>
                         <li
@@ -98,6 +95,11 @@ const WorkDayShowPage = () => {
                             <div>
                                 <span className='field-title'>Workday End Time: </span>
                                 <span className='field-value'> {timeOnly(e.end)} </span>
+                            </div>
+
+                            <div>
+                                <span className='field-title'>Room</span>
+                                <span className='field-value'> {e.room.name} ({e.room.number})</span>
                             </div>
 
                             { e.client ?
@@ -123,10 +125,6 @@ const WorkDayShowPage = () => {
                                     </a>
                                 </div>
                             }
-
-
-
-
                         </li>
                     ) : ''}
                 </ul>

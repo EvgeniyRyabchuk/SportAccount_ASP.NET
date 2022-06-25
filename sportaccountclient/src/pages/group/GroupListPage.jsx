@@ -64,6 +64,12 @@ const GroupListPage = () => {
                                     See Group Members
                                 </a>
                                 <Button
+                                    className='btn btn-warning mx-1'
+                                    type='button'
+                                >
+                                    Edit
+                                </Button>
+                                <Button
                                     className='btn btn-danger mx-1'
                                     type='button'
                                     onClick={() => deleteGroup(e.group.id)}
