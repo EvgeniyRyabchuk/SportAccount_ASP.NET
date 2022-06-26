@@ -1,8 +1,8 @@
 
 <br />
 <div align="center">
-  <a href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSq4e80pNXt6X_MonDzQwGe6s3ZLYJyZgWd6g&usqp=CAU">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+  <a href="https://github.com/EvgeniyRyabchuk/SportAccount_ASP.NET">
+    <img src="logo.png" alt="Logo" width="80" height="80">
   </a>
 
   <h3 align="center">Sport Acoount Test Site</h3>
