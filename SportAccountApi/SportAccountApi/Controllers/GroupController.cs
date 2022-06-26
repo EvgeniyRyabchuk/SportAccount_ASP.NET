@@ -29,8 +29,7 @@ namespace SportAccountApi.Controllers
         {
             try
             {
-                  
-                ICollection<Group> list = await groupDAO.GetAllAsync();
+                ICollection<Group> list = await groupDAO.GetAllAsync(); 
 
                 ICollection<object> result = new List<object>();
 
@@ -40,8 +39,7 @@ namespace SportAccountApi.Controllers
                     result.Add(new { group = group, count = users.Count }); 
 
                 }
-           
-
+                
                 return Ok(result);   
             }
             catch (Exception ex)
@@ -49,7 +47,6 @@ namespace SportAccountApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
 
         [HttpGet("{groupId}")]
         public async Task<ActionResult<Group>> ShowAsync(int groupId)
@@ -63,7 +60,6 @@ namespace SportAccountApi.Controllers
             return Ok(new { group, count, users }); 
         }
 
-        
         [HttpPost]
         public async Task<IActionResult> StoreAsync(CreateGroupDTO createGroupDTO)
         {
@@ -105,8 +101,18 @@ namespace SportAccountApi.Controllers
         [HttpDelete("{groupId}")]
         public async Task<IActionResult> DeleteAsync(int groupId)
         {
-            var list = await groupDAO.DeleteAsync(groupId); 
-            return Ok(list);
+            var list = await groupDAO.DeleteAsync(groupId);
+
+            ICollection<object> result = new List<object>();
+
+            foreach (Group g in list)
+            {
+                ICollection<User> users = await userDAO.ByGroupIdAsync(g.Id);
+                result.Add(new { group = g, count = users.Count });
+
+            }
+
+            return Ok(result);
         }
     }
 }

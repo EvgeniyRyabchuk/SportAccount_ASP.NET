@@ -28,12 +28,12 @@ const AddGroupModal = ({setShow, show, setGroups}) => {
                             className="mb-3"
                             controlId="formBasicPassword">
                             <Form.Group controlId="dob">
-                                <Form.Label>Enter user name</Form.Label>
+                                <Form.Label>Enter group name</Form.Label>
                                 <Form.Control
                                     type="text"
                                     name="dob"
                                     value={groupName}
-                                    placeholder="Start time"
+                                    placeholder="group name"
                                     onChange={
                                         (e) => setGroupName(e.target.value)
                                     }

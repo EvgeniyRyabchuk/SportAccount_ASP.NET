@@ -183,7 +183,7 @@ namespace SportAccountApi.DAL
             
             foreach (User curUser in group.Users) 
             {
-                if(curUser.Id == userId)
+                if(curUser.Id == userId) 
                 {
                     user = curUser;
                     break;

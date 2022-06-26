@@ -23,7 +23,8 @@ export default class RoomService {
     }
 
     static async Delete(id) {
-        return $api.delete(`${API_URL}/room/${id}`)
+        const res = await $api.delete(`${API_URL}/room/${id}`);
+        return res.data;
     }
 
 }

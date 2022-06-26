@@ -37,7 +37,7 @@ namespace SportAccountApi.Controllers
             db = dataContext; 
             this.httpContextAccessor = httpContextAccessor;
         }
-
+        
         [HttpGet("workday")]
         public async Task<ActionResult<ScheduleWorkday>> AllWorkday()
         {
@@ -106,16 +106,34 @@ namespace SportAccountApi.Controllers
 
             DateTime startTimeForNewWorkout = createWorkoutDTO.start; 
             DateTime endTimeForNewWorkout = createWorkoutDTO.end;
-            
+
+            // проверка коректности ведённых временных рамок 
             if(startTimeForNewWorkout.TimeOfDay > endTimeForNewWorkout.TimeOfDay)
             {
                 return BadRequest("Time params does not correct"); 
             }
+            // проверка не выходит ли переданное время за рамки рабочего дня трененра 
+            if(startTimeForNewWorkout.TimeOfDay < scheduleWorkday.StartTime.TimeOfDay
+                || endTimeForNewWorkout.TimeOfDay > scheduleWorkday.EndTime.TimeOfDay)
+            {
+                return BadRequest("This time out of coach schedule"); 
+            }
 
+            // проверка не записался ли клиент к тренеру на время которое уже занято другим 
+            ScheduleWorkout lastWorkOut = await db.ScheduleWorkouts
+                .Where(wo => wo.SheduleWorkdayId == scheduleWorkday.Id)
+                .OrderByDescending(wo => wo.end)
+                .FirstAsync();    
+            if (startTimeForNewWorkout.TimeOfDay < lastWorkOut.end.TimeOfDay)
+            {
+                return BadRequest("A coach cannot be in two places at the same time"); 
+            }
+            // получаем расписание всех тренеровв на этот день 
             ICollection<ScheduleWorkday> workdayList = await db.ScheduleWorkdays
                 .Where(wd => wd.Date == scheduleWorkday.Date)
                 .ToListAsync(); 
 
+            // провнряем нет ли временных коллизий с другими тренерами на этот день, в это время, в этом зале   
             foreach(ScheduleWorkday workday in workdayList)
             {
                 ICollection<ScheduleWorkout> workoutsList = await db.ScheduleWorkouts
@@ -129,7 +147,7 @@ namespace SportAccountApi.Controllers
                         if (startTimeForNewWorkout.TimeOfDay < scheduleWorkout.end.TimeOfDay
                             || endTimeForNewWorkout.TimeOfDay < scheduleWorkout.end.TimeOfDay) 
                         {
-                            return BadRequest("Workout time collision");
+                            return BadRequest("Workout time collision"); 
                         } 
                     }
                    
@@ -140,8 +158,6 @@ namespace SportAccountApi.Controllers
             var list = await workoutDAO.AddAsync(scheduleWorkoutMapped); 
             return Ok(list); 
         }
-        
-        
         
         [HttpDelete("workday/{workdayId}")]
         public async Task<ActionResult<ScheduleWorkday>> DeleteWorkDayAsync(int workdayId)

@@ -45,7 +45,7 @@ const AddRoomModal = ({setShow, show, setRooms}) => {
                                     type="text"
                                     name="dob"
                                     value={roomName}
-                                    placeholder="Start time"
+                                    placeholder="Room Name"
                                     onChange={
                                         (e) => setRoomName(e.target.value)
                                     }
@@ -57,7 +57,7 @@ const AddRoomModal = ({setShow, show, setRooms}) => {
                                 <Form.Control
                                     type="text"
                                     value={number}
-                                    placeholder="Start time"
+                                    placeholder="Number of Room"
                                     onChange={
                                         (e) => setNumber(e.target.value)
                                     }
@@ -69,7 +69,7 @@ const AddRoomModal = ({setShow, show, setRooms}) => {
                                 <Form.Control
                                     type="text"
                                     value={areaSize}
-                                    placeholder="Start time"
+                                    placeholder="Room Area Size"
                                     onChange={
                                         (e) => setAreaSize(e.target.value)
                                     }
@@ -81,7 +81,7 @@ const AddRoomModal = ({setShow, show, setRooms}) => {
                                 <Form.Control
                                     type="text"
                                     value={floor}
-                                    placeholder="Start time"
+                                    placeholder="Room Floor"
                                     onChange={
                                         (e) => setFloor(e.target.value)
                                     }

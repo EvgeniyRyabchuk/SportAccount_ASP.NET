@@ -26,7 +26,7 @@ const WorkDayListPage = () => {
         const res = await ScheduleService.GetWorkDaysByCoachId(coachId);
         const data = res.data;
         console.log(data);
-        setWorkdays(data);
+        setWorkdays([...data]);
     }
 
     useEffect(() => {

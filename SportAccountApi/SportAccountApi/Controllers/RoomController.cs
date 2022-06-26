@@ -49,7 +49,7 @@ namespace SportAccountApi.Controllers
             return Ok(list); 
         }
         
-        [HttpDelete("room/{roomId}")] 
+        [HttpDelete("{roomId}")] 
         public async Task<ActionResult<ICollection<Room>>> Delete(int roomId)
         {
             var list = await roomDAO.DeleteAsync(roomId); 

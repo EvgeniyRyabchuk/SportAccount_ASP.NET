@@ -16,7 +16,6 @@ namespace SportAccountApi.DAL
             this.db = db;
         }
 
-
         public async Task<ICollection<Models.Group>> AddAsync(Models.Group model)
         {
             await db.Groups.AddAsync(model);

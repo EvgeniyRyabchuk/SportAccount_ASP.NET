@@ -26,7 +26,10 @@ namespace SportAccountApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // for localhost (development)
             //string connection = Configuration.GetConnectionString("DefaultConnection");
+            
+            // for prodaction 
             string connection = "workstation id=SportAccount.mssql.somee.com;packet size=4096;user id=dipaber974_SQLLogin_2;pwd=k4w6zt1rlq;data source=SportAccount.mssql.somee.com;persist security info=False;initial catalog=SportAccount";
 
             services.AddCors(option =>

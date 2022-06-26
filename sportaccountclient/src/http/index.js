@@ -13,7 +13,10 @@ const $api = axios;
 
 $api.interceptors.request.use((config) => {
     config.withCredentials = true;
-    config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`
+    config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`;
+    config.headers.cacheControl = 'no-cache';
+    config.headers.pragma = 'no-cache';
+
     return config;
 })
 

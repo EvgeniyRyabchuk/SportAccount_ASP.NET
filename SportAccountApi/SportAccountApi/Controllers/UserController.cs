@@ -9,7 +9,6 @@ using SportAccountApi.DTO.User;
 using System.Net;
 using System.Web;
 using System.Net.Http;
-using FilmsStorage.DAL;
 using SportAccountApi.DAL;
 using SportAccountApi.Mapper;
 using Microsoft.AspNetCore.Authorization;
@@ -66,7 +65,6 @@ namespace SportAccountApi.Controllers
 
         }
 
-
         [HttpGet("coach/{coachId}")]
         public async Task<ActionResult<User>> GetCoachByIdAsync(int coachId)
         {
@@ -85,7 +83,6 @@ namespace SportAccountApi.Controllers
 
         }
 
-
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> Show(int id)
         {
@@ -100,7 +97,6 @@ namespace SportAccountApi.Controllers
                 //return BadRequest(ex.Message);
             }
         }
-
 
         [HttpPost]
         public async Task<ActionResult<User>> Store(CreateUserDTO request)
@@ -122,7 +118,6 @@ namespace SportAccountApi.Controllers
             }
           
         }
-        
         
         [HttpPost("{userId}/group/{groupId}")]
         public async Task<ActionResult<User>> AddUserToGroup(int userId, int groupId)
@@ -159,13 +154,9 @@ namespace SportAccountApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
-
-
-
-
+        
         [HttpPut]
-        public async Task<ActionResult<User>> Update(UpdateUserDTO request)
+        public async Task<ActionResult<User>> Update(UpdateUserDTO request) 
         {
             try
             {

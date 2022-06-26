@@ -88,11 +88,11 @@ namespace SportAccountApi.Models
             );
 
 
-            //modelBuilder
-            //    .Entity<User>()
-            //    .HasMany(p => p.Groups)
-            //    .WithMany(p => p.Users)
-            //    .UsingEntity(j => j.ToTable("GroupUser"));
+            modelBuilder
+                .Entity<User>()
+                .HasMany(p => p.Groups)
+                .WithMany(p => p.Users)
+                .UsingEntity(j => j.ToTable("GroupUser"));
 
             
 

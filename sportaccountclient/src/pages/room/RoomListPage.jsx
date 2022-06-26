@@ -3,6 +3,7 @@ import RoomService from "../../service/RoomService";
 import {Button, Table} from "react-bootstrap";
 import AddRoomModal from "../../components/modals/AddRoomModal";
 import UserContext from "../../context/UserContext";
+import GroupService from "../../service/GroupService";
 
 const RoomListPage = () => {
 
@@ -17,8 +18,9 @@ const RoomListPage = () => {
         console.log(data);
     };
 
-    const deleteRoom = () => {
-
+    const deleteRoom = async (rId) => {
+        const data = await RoomService.Delete(rId);
+        setRoom([...data]);
     }
 
     useEffect( () => {
@@ -73,7 +75,7 @@ const RoomListPage = () => {
                             </Button>
                             <Button
                             variant='danger'
-                            onClick={() => deleteRoom}
+                            onClick={() => deleteRoom(e.id)}
                             >
                                 Delete
                             </Button>
