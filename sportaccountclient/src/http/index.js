@@ -1,8 +1,8 @@
 import axios from 'axios';
 import UserContext from "../context/UserContext";
 
-// export const API_URL = `https://localhost:44313/api`;
-export const API_URL = `https://sportaccountapi20220622105333.azurewebsites.net/api`;
+ export const API_URL = `https://localhost:44313/api`;
+//export const API_URL = `https://sportaccountapi20220622105333.azurewebsites.net/api`;
 
 const $api = axios;
 

@@ -25,17 +25,19 @@ namespace SportAccountApi.Controllers
     public class AuthController : Controller
     {
         private readonly UserDAO userDAO;
-        private readonly RoleDAO roleDAO;
+        private readonly RoleDAO roleDAO; 
         private readonly RefreshTokenDAO refreshTokenDAO;
 
         private readonly IConfiguration _confiuration;
         private readonly IHttpContextAccessor httpContextAccessor;
-        //private UserManager<IdentityUser> _userManager;
-        
+        //private UserManager<User> _userManager;
+
+
         public AuthController(
             DataContext dataContext,
             IConfiguration configuration, 
             IHttpContextAccessor httpContextAccessor
+           
             )
         {
             userDAO = new UserDAO(dataContext);

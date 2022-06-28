@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,10 +28,10 @@ namespace SportAccountApi
         public void ConfigureServices(IServiceCollection services)
         {
             // for localhost (development)
-            //string connection = Configuration.GetConnectionString("DefaultConnection");
+            string connection = Configuration.GetConnectionString("DefaultConnection");
             
             // for prodaction 
-            string connection = "workstation id=SportAccount.mssql.somee.com;packet size=4096;user id=dipaber974_SQLLogin_2;pwd=k4w6zt1rlq;data source=SportAccount.mssql.somee.com;persist security info=False;initial catalog=SportAccount";
+            //string connection = "workstation id=SportAccount.mssql.somee.com;packet size=4096;user id=dipaber974_SQLLogin_2;pwd=k4w6zt1rlq;data source=SportAccount.mssql.somee.com;persist security info=False;initial catalog=SportAccount";
 
             services.AddCors(option =>
                     option.AddDefaultPolicy(builder => 
@@ -76,7 +77,7 @@ namespace SportAccountApi
              });
 
             services.AddHttpContextAccessor();
-            
+
             #region user manager 
             //services.AddIdentity<IdentityUser, IdentityRole>(options =>
             //{
@@ -89,7 +90,10 @@ namespace SportAccountApi
             //                .AddEntityFrameworkStores<DataContext>()
             //                .AddDefaultTokenProviders();
 
-            //services.AddDefaultIdentity<IdentityUser>().AddUserStore<DataContext>();
+           // services.AddDefaultIdentity<User>().AddUserStore<DataContext>();
+
+            
+
             #endregion
 
         }

@@ -75,7 +75,7 @@ namespace SportAccountApi.Controllers
         [HttpGet("coach/{coachId}/workday/{workdayId}/workout")] 
         public async Task<IActionResult> AllWorkoutsByDayAsync(int coachId, int workdayId)
         {
-            User coach = await userDAO.FindByIdAsync(coachId);
+            User coach = await userDAO.FindByIdAsync(coachId); 
             ScheduleWorkday workday = await workdayDAO.FindByIdAsync(workdayId);
             ICollection<ScheduleWorkout> list = await workoutDAO.GetAllByDayIdAsync(workdayId);
             return Ok(list);
@@ -120,14 +120,26 @@ namespace SportAccountApi.Controllers
             }
 
             // проверка не записался ли клиент к тренеру на время которое уже занято другим 
-            ScheduleWorkout lastWorkOut = await db.ScheduleWorkouts
-                .Where(wo => wo.SheduleWorkdayId == scheduleWorkday.Id)
-                .OrderByDescending(wo => wo.end)
-                .FirstAsync();    
-            if (startTimeForNewWorkout.TimeOfDay < lastWorkOut.end.TimeOfDay)
+            ScheduleWorkout lastWorkOut = null; 
+            try
             {
-                return BadRequest("A coach cannot be in two places at the same time"); 
+                lastWorkOut = await db.ScheduleWorkouts
+                    .Where(wo => wo.SheduleWorkdayId == scheduleWorkday.Id)
+                    .OrderByDescending(wo => wo.end)
+                    .FirstAsync();
             }
+            catch(Exception ex)
+            {
+
+            }
+            if(lastWorkOut != null)
+            {
+                if (startTimeForNewWorkout.TimeOfDay < lastWorkOut.end.TimeOfDay)
+                {
+                    return BadRequest("A coach cannot be in two places at the same time");
+                }
+            }
+            
             // получаем расписание всех тренеровв на этот день 
             ICollection<ScheduleWorkday> workdayList = await db.ScheduleWorkdays
                 .Where(wd => wd.Date == scheduleWorkday.Date)

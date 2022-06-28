@@ -1,5 +1,6 @@
 PowerShell
 dotnet tool install --local dotnet-ef --version 5.0.17
+dotnet new tool-manifest
 
 Packege Manager Console  
 1) input cd command something like that - cd C:\Users\jekar\Desktop\SportAccount_ASP.NET\SportAccountApi\SportAccountApi 

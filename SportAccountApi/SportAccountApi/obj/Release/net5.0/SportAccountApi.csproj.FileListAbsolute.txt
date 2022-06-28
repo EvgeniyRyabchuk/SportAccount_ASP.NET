@@ -62,3 +62,12 @@ C:\Users\jekar\Desktop\SportAccount_ASP.NET\SportAccountApi\SportAccountApi\obj\
 C:\Users\jekar\Desktop\SportAccount_ASP.NET\SportAccountApi\SportAccountApi\obj\Release\net5.0\SportAccountApi.pdb
 C:\Users\jekar\Desktop\SportAccount_ASP.NET\SportAccountApi\SportAccountApi\obj\Release\net5.0\SportAccountApi.genruntimeconfig.cache
 C:\Users\jekar\Desktop\SportAccount_ASP.NET\SportAccountApi\SportAccountApi\obj\Release\net5.0\ref\SportAccountApi.dll
+C:\Users\jekar\Desktop\SportAccount_ASP.NET\SportAccountApi\SportAccountApi\bin\Release\net5.0\SportAccountApi.StaticWebAssets.xml
+C:\Users\jekar\Desktop\SportAccount_ASP.NET\SportAccountApi\SportAccountApi\bin\Release\net5.0\Microsoft.AspNetCore.Cryptography.Internal.dll
+C:\Users\jekar\Desktop\SportAccount_ASP.NET\SportAccountApi\SportAccountApi\bin\Release\net5.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+C:\Users\jekar\Desktop\SportAccount_ASP.NET\SportAccountApi\SportAccountApi\bin\Release\net5.0\Microsoft.AspNetCore.Identity.UI.Views.V4.dll
+C:\Users\jekar\Desktop\SportAccount_ASP.NET\SportAccountApi\SportAccountApi\bin\Release\net5.0\Microsoft.AspNetCore.Identity.UI.dll
+C:\Users\jekar\Desktop\SportAccount_ASP.NET\SportAccountApi\SportAccountApi\bin\Release\net5.0\Microsoft.Extensions.FileProviders.Embedded.dll
+C:\Users\jekar\Desktop\SportAccount_ASP.NET\SportAccountApi\SportAccountApi\bin\Release\net5.0\Microsoft.Extensions.Identity.Core.dll
+C:\Users\jekar\Desktop\SportAccount_ASP.NET\SportAccountApi\SportAccountApi\bin\Release\net5.0\Microsoft.Extensions.Identity.Stores.dll
+C:\Users\jekar\Desktop\SportAccount_ASP.NET\SportAccountApi\SportAccountApi\obj\Release\net5.0\staticwebassets\SportAccountApi.StaticWebAssets.xml
